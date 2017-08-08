@@ -5,13 +5,19 @@ import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Repository.StudentRepository;
 import com.student.management.rest.api.Service.StudentService;
 import com.student.management.rest.api.Util.DepartmentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
 
     private final StudentRepository studentRepository;
 
@@ -22,6 +28,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String getWelcomeMessage() {
+        LOGGER.info("Welcome!!!");
         return "Welcome!!";
     }
 
@@ -37,7 +44,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void saveStudent(Student student) {
-
+        StudentEntity studentEntity = convertStudentDtoToDao(student);
+        this.studentRepository.save(studentEntity);
     }
 
     @Override
@@ -52,7 +60,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAllStudents() {
-        return null;
+
+        List<StudentEntity> studentEntities = new ArrayList<>();
+        this.studentRepository.findAll().forEach(studentEntities::add);
+
+        return  studentEntities.stream()
+                .map(this::convertStudentDaoToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteAllStudents() {
-
+        return ;
     }
 
     @Override
@@ -72,7 +86,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean isStudentExist(Student student) {
-        return false;
+        return this.studentRepository.exists(student.getId());
     }
 
     private Student convertStudentDaoToDto(StudentEntity studentEntity) {
@@ -83,5 +97,15 @@ public class StudentServiceImpl implements StudentService {
         student.setDepartment(DepartmentType.valueOf(studentEntity.getDepartment()));
 
         return  student;
+    }
+
+    private StudentEntity convertStudentDtoToDao(Student student) {
+        StudentEntity studentEntity = new StudentEntity();
+        studentEntity.setId(student.getId());
+        studentEntity.setName(student.getName());
+        studentEntity.setAge(student.getAge());
+        studentEntity.setDepartment(student.getDepartment().displayName());
+
+        return  studentEntity;
     }
 }

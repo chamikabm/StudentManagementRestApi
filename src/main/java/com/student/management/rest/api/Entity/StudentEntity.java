@@ -1,10 +1,11 @@
 package com.student.management.rest.api.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="STUDENT")
-public class StudentEntity {
+public class StudentEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

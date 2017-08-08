@@ -31,7 +31,7 @@ public class AppController {
 
     // -------------------Retrieve All Students--------------------------------------------
 
-    @RequestMapping(value = "/students/", method = RequestMethod.GET)
+    @RequestMapping(value = "/students", method = RequestMethod.GET)
     public ResponseEntity<List<Student>> listAllStudents() {
         List<Student> students = studentService.findAllStudents();
 
@@ -45,7 +45,7 @@ public class AppController {
 
     // -------------------Retrieve Single Student------------------------------------------
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/student/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getStudent(@PathVariable("id") Integer id) {
         //logger.info("Fetching User with id {}", id);
         Student student = studentService.findById(id);
@@ -60,7 +60,7 @@ public class AppController {
 
     // -------------------Create a Student-------------------------------------------
 
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
+    @RequestMapping(value = "/student", method = RequestMethod.POST)
     public ResponseEntity<?> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
         //logger.info("Creating User : {}", user);
 
@@ -79,7 +79,7 @@ public class AppController {
 
     // ------------------- Update a Student ------------------------------------------------
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/student/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody Student student) {
         //logger.info("Updating User with id {}", id);
 
@@ -102,7 +102,7 @@ public class AppController {
 
     // ------------------- Delete a User-----------------------------------------
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/student/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
         //logger.info("Fetching & Deleting User with id {}", id);
 
@@ -121,7 +121,7 @@ public class AppController {
 
     // ------------------- Delete All Users-----------------------------
 
-    @RequestMapping(value = "/users/", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/student/", method = RequestMethod.DELETE)
     public ResponseEntity<Student> deleteAllUsers() {
         //logger.info("Deleting All Users");
 
