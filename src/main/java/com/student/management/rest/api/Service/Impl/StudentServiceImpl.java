@@ -4,7 +4,6 @@ import com.student.management.rest.api.Entity.StudentEntity;
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Repository.StudentRepository;
 import com.student.management.rest.api.Service.StudentService;
-import com.student.management.rest.api.Util.DepartmentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     private final StudentRepository studentRepository;
 
@@ -70,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findAllStudentsByDepartment(DepartmentType department) {
+    public List<Student> findAllStudentsByDepartment(String department) {
         return null;
     }
 
@@ -80,7 +79,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteAllStudentsByDepartment(DepartmentType department) {
+    public void deleteAllStudentsByDepartment(String department) {
 
     }
 
@@ -94,7 +93,7 @@ public class StudentServiceImpl implements StudentService {
         student.setId(studentEntity.getId());
         student.setName(studentEntity.getName());
         student.setAge(studentEntity.getAge());
-        student.setDepartment(DepartmentType.valueOf(studentEntity.getDepartment()));
+        student.setDepartment(studentEntity.getDepartment());
 
         return  student;
     }
@@ -104,7 +103,7 @@ public class StudentServiceImpl implements StudentService {
         studentEntity.setId(student.getId());
         studentEntity.setName(student.getName());
         studentEntity.setAge(student.getAge());
-        studentEntity.setDepartment(student.getDepartment().displayName());
+        studentEntity.setDepartment(student.getDepartment());
 
         return  studentEntity;
     }

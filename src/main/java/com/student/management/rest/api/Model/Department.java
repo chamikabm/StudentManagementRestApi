@@ -1,11 +1,9 @@
 package com.student.management.rest.api.Model;
 
-import com.student.management.rest.api.Util.DepartmentType;
-
 public class Department {
     private int id;
     private String name;
-    private DepartmentType department;
+    private String departmentHead;
 
     public int getId() {
         return id;
@@ -23,11 +21,11 @@ public class Department {
         this.name = name;
     }
 
-    public DepartmentType getDepartment() {
-        return department;
+    public String getDepartmentHead() {
+        return departmentHead;
     }
 
-    public void setDepartment(DepartmentType department) {
-        this.department = department;
+    public void setDepartmentHead(String departmentHead) {
+        this.departmentHead = departmentHead;
     }
 }

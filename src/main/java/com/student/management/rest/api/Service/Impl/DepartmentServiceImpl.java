@@ -1,19 +1,38 @@
 package com.student.management.rest.api.Service.Impl;
 
+import com.student.management.rest.api.Entity.DepartmentEntity;
 import com.student.management.rest.api.Model.Department;
+import com.student.management.rest.api.Repository.DepartmentRepository;
 import com.student.management.rest.api.Service.DepartmentService;
-import com.student.management.rest.api.Util.DepartmentType;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
 public class DepartmentServiceImpl implements DepartmentService {
-    @Override
-    public Department findById(Integer id) {
-        return null;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentServiceImpl.class);
+
+    private final DepartmentRepository departmentRepository;
+
+    @Autowired
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
     }
 
     @Override
-    public Department findByType(DepartmentType departmentType) {
+    public Department findById(Integer id) {
+        return convertDaoToDto(departmentRepository.findOne(id));
+    }
+
+    @Override
+    public Department findByName(String departmentName) {
         return null;
     }
 
@@ -34,11 +53,26 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> findAllDepartments() {
-        return null;
+        List<DepartmentEntity> departmentEntities = new ArrayList<>();
+        this.departmentRepository.findAll().forEach(departmentEntities::add);
+
+        return  departmentEntities.stream()
+                .map(this::convertDaoToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public boolean isDepartmentExist(Department department) {
         return false;
+    }
+
+    private Department convertDaoToDto(DepartmentEntity departmentEntity) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(departmentEntity, Department.class);
+    }
+
+    private DepartmentEntity convertDtoToDao(Department department) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(department, DepartmentEntity.class);
     }
 }

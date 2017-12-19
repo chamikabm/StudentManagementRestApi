@@ -1,7 +1,6 @@
 package com.student.management.rest.api.Service;
 
 import com.student.management.rest.api.Model.Student;
-import com.student.management.rest.api.Util.DepartmentType;
 
 import java.util.List;
 
@@ -21,11 +20,11 @@ public interface StudentService {
 
     List<Student> findAllStudents();
 
-    List<Student> findAllStudentsByDepartment(DepartmentType department);
+    List<Student> findAllStudentsByDepartment(String department);
 
     void deleteAllStudents();
 
-    void deleteAllStudentsByDepartment(DepartmentType department);
+    void deleteAllStudentsByDepartment(String department);
 
     boolean isStudentExist(Student student);
 }

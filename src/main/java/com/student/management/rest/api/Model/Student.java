@@ -1,13 +1,11 @@
 package com.student.management.rest.api.Model;
 
-import com.student.management.rest.api.Util.DepartmentType;
-
 public class Student {
 
     private int id;
     private String name;
     private int age;
-    private DepartmentType department;
+    private String department;
 
     public int getId() {
         return id;
@@ -33,11 +31,11 @@ public class Student {
         this.age = age;
     }
 
-    public DepartmentType getDepartment() {
+    public String getDepartment() {
         return department;
     }
 
-    public void setDepartment(DepartmentType department) {
+    public void setDepartment(String department) {
         this.department = department;
     }
 }

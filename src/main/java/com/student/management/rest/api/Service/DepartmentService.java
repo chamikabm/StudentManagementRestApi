@@ -1,7 +1,6 @@
 package com.student.management.rest.api.Service;
 
 import com.student.management.rest.api.Model.Department;
-import com.student.management.rest.api.Util.DepartmentType;
 
 import java.util.List;
 
@@ -9,7 +8,7 @@ public interface DepartmentService {
 
     Department findById(Integer id);
 
-    Department findByType(DepartmentType departmentType);
+    Department findByName(String departmentName);
 
     void addNewDepartment(Department department);
 
