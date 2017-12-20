@@ -1,4 +1,6 @@
 package com.student.management.rest.api.Repository.Impl;
 
-public class DepartmentRepositoryImpl {
+import com.student.management.rest.api.Repository.DepartmentRepository;
+
+public abstract class DepartmentRepositoryImpl implements DepartmentRepository{
 }

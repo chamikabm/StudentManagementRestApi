@@ -1,4 +1,4 @@
-package com.student.management.rest.api.controller;
+package com.student.management.rest.api.Controller;
 
 import com.student.management.rest.api.Model.Department;
 import com.student.management.rest.api.Service.DepartmentService;
