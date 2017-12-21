@@ -1,4 +1,8 @@
 package com.student.management.rest.api.Repository.Impl;
 
-public abstract class ExamRepositoryImpl {
+import com.student.management.rest.api.Repository.ExamRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public abstract class ExamRepositoryImpl implements ExamRepository{
 }

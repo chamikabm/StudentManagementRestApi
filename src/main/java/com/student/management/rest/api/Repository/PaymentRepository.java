@@ -1,4 +1,7 @@
 package com.student.management.rest.api.Repository;
 
-public interface PaymentRepository {
+import com.student.management.rest.api.Entity.PaymentEntity;
+import org.springframework.data.repository.CrudRepository;
+
+public interface PaymentRepository extends CrudRepository<PaymentEntity, Integer> {
 }

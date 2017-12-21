@@ -1,15 +1,15 @@
 package com.student.management.rest.api.Model;
 
 public class Department {
-    private int id;
+    private Integer id;
     private String name;
-    private String departmentHead;
+    private Integer departmentHeadId;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -21,11 +21,11 @@ public class Department {
         this.name = name;
     }
 
-    public String getDepartmentHead() {
-        return departmentHead;
+    public Integer getDepartmentHeadId() {
+        return departmentHeadId;
     }
 
-    public void setDepartmentHead(String departmentHead) {
-        this.departmentHead = departmentHead;
+    public void setDepartmentHeadId(Integer departmentHeadId) {
+        this.departmentHeadId = departmentHeadId;
     }
 }

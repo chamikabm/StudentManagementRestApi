@@ -1,16 +1,7 @@
-package com.student.management.rest.api.Entity;
+package com.student.management.rest.api.Model;
 
-import javax.persistence.*;
-import java.io.Serializable;
+public class Lecturer {
 
-@Entity
-@Table(name="student")
-public class StudentEntity implements Serializable {
-
-    private static final long serialVersionUID = 3652788637685679620L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private Integer age;
@@ -18,20 +9,6 @@ public class StudentEntity implements Serializable {
     private String address;
     private String email;
     private Integer departmentId;
-    private Integer semester;
-
-    public StudentEntity() {}
-
-    public StudentEntity(String name, Integer age, String contactNo, String address,
-                         String email, Integer departmentId, Integer semester) {
-        this.name = name;
-        this.age = age;
-        this.contactNo = contactNo;
-        this.address = address;
-        this.email = email;
-        this.departmentId = departmentId;
-        this.semester = semester;
-    }
 
     public Integer getId() {
         return id;
@@ -87,13 +64,5 @@ public class StudentEntity implements Serializable {
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
-    }
-
-    public Integer getSemester() {
-        return semester;
-    }
-
-    public void setSemester(Integer semester) {
-        this.semester = semester;
     }
 }

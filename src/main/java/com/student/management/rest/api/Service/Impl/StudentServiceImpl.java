@@ -4,6 +4,7 @@ import com.student.management.rest.api.Entity.StudentEntity;
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Repository.StudentRepository;
 import com.student.management.rest.api.Service.StudentService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,22 +90,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     private Student convertStudentDaoToDto(StudentEntity studentEntity) {
-        Student student = new Student();
-        student.setId(studentEntity.getId());
-        student.setName(studentEntity.getName());
-        student.setAge(studentEntity.getAge());
-        student.setDepartment(studentEntity.getDepartment());
-
-        return  student;
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(studentEntity, Student.class);
     }
 
     private StudentEntity convertStudentDtoToDao(Student student) {
-        StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setId(student.getId());
-        studentEntity.setName(student.getName());
-        studentEntity.setAge(student.getAge());
-        studentEntity.setDepartment(student.getDepartment());
-
-        return  studentEntity;
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(student, StudentEntity.class);
     }
 }

@@ -2,7 +2,9 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Service.RegistrationService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RegistrationServiceImpl implements RegistrationService {
 
     @Override

@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="student")
-public class StudentEntity implements Serializable {
+@Table(name="lecturer")
+public class LecturerEntity implements Serializable {
 
-    private static final long serialVersionUID = 3652788637685679620L;
+    private static final long serialVersionUID = -8857279483644492778L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,19 +18,17 @@ public class StudentEntity implements Serializable {
     private String address;
     private String email;
     private Integer departmentId;
-    private Integer semester;
 
-    public StudentEntity() {}
+    public LecturerEntity() { }
 
-    public StudentEntity(String name, Integer age, String contactNo, String address,
-                         String email, Integer departmentId, Integer semester) {
+    public LecturerEntity(String name, Integer age, String contactNo, String address,
+                          String email, Integer departmentId) {
         this.name = name;
         this.age = age;
         this.contactNo = contactNo;
         this.address = address;
         this.email = email;
         this.departmentId = departmentId;
-        this.semester = semester;
     }
 
     public Integer getId() {
@@ -87,13 +85,5 @@ public class StudentEntity implements Serializable {
 
     public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
-    }
-
-    public Integer getSemester() {
-        return semester;
-    }
-
-    public void setSemester(Integer semester) {
-        this.semester = semester;
     }
 }

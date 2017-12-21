@@ -4,21 +4,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="DEPARTMENT")
+@Table(name="department")
 public class DepartmentEntity implements Serializable {
+
+    private static final long serialVersionUID = -7262991667111930417L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private String departmentHead;
+    private String departmentHeadId;
 
     public DepartmentEntity() {}
-
-    public DepartmentEntity(String name, String departmentHead) {
-        this.name = name;
-        this.departmentHead = departmentHead;
-    }
 
     public Integer getId() {
         return id;
@@ -36,11 +33,11 @@ public class DepartmentEntity implements Serializable {
         this.name = name;
     }
 
-    public String getDepartmentHead() {
-        return departmentHead;
+    public String getDepartmentHeadId() {
+        return departmentHeadId;
     }
 
-    public void setDepartmentHead(String departmentHead) {
-        this.departmentHead = departmentHead;
+    public void setDepartmentHeadId(String departmentHeadId) {
+        this.departmentHeadId = departmentHeadId;
     }
 }

@@ -1,8 +1,7 @@
 package com.student.management.rest.api.Controller;
 
-
-import com.student.management.rest.api.Model.Exam;
-import com.student.management.rest.api.Service.ExamService;
+import com.student.management.rest.api.Model.Payment;
+import com.student.management.rest.api.Service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,29 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("exam")
-public class ExamController {
+@RequestMapping("payment")
+public class PaymentController {
 
-    private final ExamService examService;
+    private final PaymentService paymentService;
 
     @Autowired
-    public ExamController(ExamService examService) {
-        this.examService = examService;
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
-    // -------------------Retrieve All Exams--------------------------------------------
+    // -------------------Retrieve All Payments--------------------------------------------
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<Exam>> listAllExams() {
-        List<Exam> exams = examService.findAllExams();
+    public ResponseEntity<List<Payment>> listAllPayments() {
+        List<Payment> payments = paymentService.findAllPayments();
 
-        if (exams.isEmpty()) {
+        if (payments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
         }
 
-        return new ResponseEntity<>(exams, HttpStatus.OK);
+        return new ResponseEntity<>(payments, HttpStatus.OK);
     }
-
 }
-

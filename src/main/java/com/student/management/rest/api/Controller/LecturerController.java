@@ -1,8 +1,7 @@
 package com.student.management.rest.api.Controller;
 
-
-import com.student.management.rest.api.Model.Exam;
-import com.student.management.rest.api.Service.ExamService;
+import com.student.management.rest.api.Model.Lecturer;
+import com.student.management.rest.api.Service.LecturerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,29 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("exam")
-public class ExamController {
+@RequestMapping("lecturer")
+public class LecturerController {
 
-    private final ExamService examService;
+    private final LecturerService lecturerService;
 
     @Autowired
-    public ExamController(ExamService examService) {
-        this.examService = examService;
+    public LecturerController(LecturerService lecturerService) {
+        this.lecturerService = lecturerService;
     }
 
-    // -------------------Retrieve All Exams--------------------------------------------
+    // -------------------Retrieve All Lecturers--------------------------------------------
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<List<Exam>> listAllExams() {
-        List<Exam> exams = examService.findAllExams();
+    public ResponseEntity<List<Lecturer>> listAllLecturers() {
+        List<Lecturer> lecturers = lecturerService.findAllLecturers();
 
-        if (exams.isEmpty()) {
+        if (lecturers.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
         }
 
-        return new ResponseEntity<>(exams, HttpStatus.OK);
+        return new ResponseEntity<>(lecturers, HttpStatus.OK);
     }
-
 }
-
