@@ -3,6 +3,8 @@ package com.student.management.rest.api.Controller;
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Service.StudentService;
 import com.student.management.rest.api.Util.CustomErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("student")
 public class StudentController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
+
     private final StudentService studentService;
 
     @Autowired
@@ -24,9 +28,9 @@ public class StudentController {
     }
 
     // -------------------Retrieve All Students--------------------------------------------
-
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Student>> listAllStudents() {
+
         List<Student> students = studentService.findAllStudents();
 
         if (students.isEmpty()) {
@@ -38,10 +42,9 @@ public class StudentController {
     }
 
     // -------------------Retrieve Single Student------------------------------------------
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getStudent(@PathVariable("id") Integer id) {
-        //logger.info("Fetching User with id {}", id);
+
         Student student = studentService.findById(id);
         if (student == null) {
             //logger.error("User with id {} not found.", id);
@@ -53,10 +56,8 @@ public class StudentController {
     }
 
     // -------------------Create a Student-------------------------------------------
-
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
-        //logger.info("Creating User : {}", user);
 
         if (studentService.isStudentExist(student)) {
             //logger.error("Unable to create. A User with name {} already exist", user.getName());
@@ -67,20 +68,17 @@ public class StudentController {
         studentService.saveStudent(student);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(student.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/studentapi/student/{id}").buildAndExpand(student.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     // ------------------- Update a Student ------------------------------------------------
-
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody Student student) {
-        //logger.info("Updating User with id {}", id);
 
         Student currentStudent = studentService.findById(id);
 
         if (currentStudent == null) {
-            //logger.error("Unable to update. User with id {} not found.", id);
             return new ResponseEntity<>(new CustomErrorType("Unable to update. Student with id " +
                     "" + id + " not found."), HttpStatus.NOT_FOUND);
         }
@@ -88,39 +86,35 @@ public class StudentController {
         currentStudent.setName(student.getName());
         currentStudent.setAge(student.getAge());
         currentStudent.setDepartment(student.getDepartment());
+        currentStudent.setAddress(student.getAddress());
+        currentStudent.setContactNo(student.getContactNo());
+        currentStudent.setEmail(student.getEmail());
+        currentStudent.setSemester(student.getSemester());
 
         studentService.updateStudent(currentStudent);
-
         return new ResponseEntity<>(currentStudent, HttpStatus.OK);
     }
 
-    // ------------------- Delete a User-----------------------------------------
-
+    // ------------------- Delete a Student-----------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
-        //logger.info("Fetching & Deleting User with id {}", id);
 
         Student student = studentService.findById(id);
 
         if (student == null) {
-            //logger.error("Unable to delete. User with id {} not found.", id);
             return new ResponseEntity<>(new CustomErrorType("Unable to delete. " +
                     "Student with id " + id + " not found."), HttpStatus.NOT_FOUND);
         }
 
         studentService.deleteStudentById(id);
-
         return new ResponseEntity<Student>(HttpStatus.NO_CONTENT);
     }
 
-    // ------------------- Delete All Users-----------------------------
-
+    // ------------------- Delete All Students-----------------------------
     @RequestMapping(value = "/all", method = RequestMethod.DELETE)
     public ResponseEntity<Student> deleteAllUsers() {
-        //logger.info("Deleting All Users");
 
         studentService.deleteAllStudents();
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

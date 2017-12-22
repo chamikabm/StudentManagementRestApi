@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class LecturerServiceImpl implements LecturerService{
+public class LecturerServiceImpl implements LecturerService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LecturerServiceImpl.class);
 
@@ -32,6 +32,37 @@ public class LecturerServiceImpl implements LecturerService{
         return  lecturerEntities.stream()
                 .map(this::convertDaoToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Lecturer findById(Integer id) {
+        return convertDaoToDto(this.lecturerRepository.findOne(id));
+    }
+
+    @Override
+    public boolean isLecturerExist(Lecturer lecturer) {
+        return this.lecturerRepository.exists(lecturer.getId());
+    }
+
+    @Override
+    public void addNewLecturer(Lecturer lecturer) {
+        LecturerEntity lecturerEntity = convertDtoToDao(lecturer);
+        this.lecturerRepository.save(lecturerEntity);
+    }
+
+    @Override
+    public void updateLecturer(Lecturer currentLecturer) {
+
+    }
+
+    @Override
+    public void deleteLecturerById(Integer id) {
+        this.lecturerRepository.delete(id);
+    }
+
+    @Override
+    public void deleteAllLecturers() {
+        this.lecturerRepository.deleteAll();
     }
 
     private Lecturer convertDaoToDto(LecturerEntity lecturerEntity) {

@@ -19,4 +19,6 @@ public interface DepartmentService {
     List<Department> findAllDepartments();
 
     boolean isDepartmentExist(Department department);
+
+    void deleteAllDepartments();
 }

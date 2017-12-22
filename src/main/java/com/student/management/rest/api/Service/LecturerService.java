@@ -6,4 +6,16 @@ import java.util.List;
 
 public interface LecturerService {
     List<Lecturer> findAllLecturers();
+
+    Lecturer findById(Integer id);
+
+    boolean isLecturerExist(Lecturer lecturer);
+
+    void addNewLecturer(Lecturer lecturer);
+
+    void updateLecturer(Lecturer currentLecturer);
+
+    void deleteLecturerById(Integer id);
+
+    void deleteAllLecturers();
 }

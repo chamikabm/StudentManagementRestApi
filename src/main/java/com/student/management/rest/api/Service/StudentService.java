@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface StudentService {
 
-    String getWelcomeMessage();
-
     Student findById(Integer id);
 
     Student findByName(String name);

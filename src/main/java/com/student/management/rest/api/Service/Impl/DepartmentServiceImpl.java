@@ -38,7 +38,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void addNewDepartment(Department department) {
-
+        DepartmentEntity departmentEntity = convertDtoToDao(department);
+        this.departmentRepository.save(departmentEntity);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void deleteDepartmentById(Integer id) {
-
+        this.departmentRepository.delete(id);
     }
 
     @Override
@@ -63,7 +64,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public boolean isDepartmentExist(Department department) {
-        return false;
+        return this.departmentRepository.exists(department.getId());
+    }
+
+    @Override
+    public void deleteAllDepartments() {
+        this.departmentRepository.deleteAll();
     }
 
     private Department convertDaoToDto(DepartmentEntity departmentEntity) {

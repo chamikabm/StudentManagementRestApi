@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ExamServiceImpl implements ExamService{
+public class ExamServiceImpl implements ExamService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamServiceImpl.class);
 
@@ -32,6 +32,37 @@ public class ExamServiceImpl implements ExamService{
         return  examEntities.stream()
                 .map(this::convertDaoToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Exam findById(Integer id) {
+        return convertDaoToDto(this.examRepository.findOne(id));
+    }
+
+    @Override
+    public boolean isExamExist(Exam exam) {
+        return this.examRepository.exists(exam.getId());
+    }
+
+    @Override
+    public void addNewExam(Exam exam) {
+        ExamEntity examEntity = convertDtoToDao(exam);
+        this.examRepository.save(examEntity);
+    }
+
+    @Override
+    public void updateExam(Exam currentExam) {
+
+    }
+
+    @Override
+    public void deleteExamById(Integer id) {
+        this.examRepository.delete(id);
+    }
+
+    @Override
+    public void deleteAllExams() {
+        this.examRepository.deleteAll();
     }
 
     private Exam convertDaoToDto(ExamEntity examEntity) {

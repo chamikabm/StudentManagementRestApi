@@ -27,12 +27,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public String getWelcomeMessage() {
-        LOGGER.info("Welcome!!!");
-        return "Welcome!!";
-    }
-
-    @Override
     public Student findById(Integer id) {
         return convertStudentDaoToDto(studentRepository.findOne(id));
     }
@@ -55,7 +49,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudentById(Integer id) {
-
+        this.studentRepository.delete(id);
     }
 
     @Override
@@ -76,7 +70,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteAllStudents() {
-        return ;
+        this.studentRepository.deleteAll();
     }
 
     @Override

@@ -34,6 +34,37 @@ public class PaymentServiceImpl implements PaymentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Payment findById(Integer id) {
+        return convertDaoToDto(this.paymentRepository.findOne(id));
+    }
+
+    @Override
+    public boolean isPaymentExist(Payment payment) {
+        return this.paymentRepository.exists(payment.getId());
+    }
+
+    @Override
+    public void addNewPayment(Payment payment) {
+        PaymentEntity paymentEntity = convertDtoToDao(payment);
+        this.paymentRepository.save(paymentEntity);
+    }
+
+    @Override
+    public void updatePayment(Payment currentPayment) {
+
+    }
+
+    @Override
+    public void deletePaymentById(Integer id) {
+        this.paymentRepository.delete(id);
+    }
+
+    @Override
+    public void deleteAllPayments() {
+        this.paymentRepository.deleteAll();
+    }
+
     private Payment convertDaoToDto(PaymentEntity paymentEntity) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(paymentEntity, Payment.class);
