@@ -1,6 +1,6 @@
 package com.student.management.rest.api.Util;
 
-public class CustomErrorType {
+public class CustomErrorType extends Throwable {
 
     private String errorMessage;
 

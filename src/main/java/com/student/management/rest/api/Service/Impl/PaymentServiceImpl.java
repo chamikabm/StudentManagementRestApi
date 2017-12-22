@@ -4,9 +4,12 @@ import com.student.management.rest.api.Entity.PaymentEntity;
 import com.student.management.rest.api.Model.Payment;
 import com.student.management.rest.api.Repository.PaymentRepository;
 import com.student.management.rest.api.Service.PaymentService;
+import com.student.management.rest.api.Util.CustomErrorType;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,8 +38,13 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment findById(Integer id) {
-        return convertDaoToDto(this.paymentRepository.findOne(id));
+    public Payment findById(Integer id) throws CustomErrorType {
+        PaymentEntity paymentEntity = this.paymentRepository.findOne(id);
+        if (paymentEntity == null) {
+            throw new CustomErrorType("Payment with id " + id + " not found");
+        } else {
+            return convertDaoToDto(paymentEntity);
+        }
     }
 
     @Override

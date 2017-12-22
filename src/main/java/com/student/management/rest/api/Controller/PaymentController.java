@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,24 +31,28 @@ public class PaymentController {
     // -------------------Retrieve All Payments--------------------------------------------
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Payment>> listAllPayments() {
+        LOGGER.info("Payment - Controller- listAllPayments request received.");
+
         List<Payment> payments = paymentService.findAllPayments();
 
         if (payments.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            // You many decide to return HttpStatus.NOT_FOUND
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        LOGGER.info("Payment - Controller- listAllPayments request processed.");
         return new ResponseEntity<>(payments, HttpStatus.OK);
     }
 
     // -------------------Retrieve Single Payment------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getPayment(@PathVariable("id") Integer id) {
+        LOGGER.info("Payment - Controller- getPayment request received.");
 
-        Payment payment = paymentService.findById(id);
-        if (payment == null) {
-            return new ResponseEntity<>(new CustomErrorType("Payment with id " + id
-                    + " not found"), HttpStatus.NOT_FOUND);
+        Payment payment = null;
+        try {
+            payment = paymentService.findById(id);
+        } catch (CustomErrorType customError) {
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Payment>(payment, HttpStatus.OK);
@@ -56,61 +61,69 @@ public class PaymentController {
     // -------------------Create a Payment-------------------------------------------
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createPayment(@RequestBody Payment payment, UriComponentsBuilder ucBuilder) {
+        LOGGER.info("Payment - Controller- createPayment request received. data id : {} ", payment.getId());
 
-        if (paymentService.isPaymentExist(payment)) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to create. A Payment with name " +
-                    payment.getId() + " already exist."),HttpStatus.CONFLICT);
-        }
-
+        payment.setPaymentDate(new Date());
         paymentService.addNewPayment(payment);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/payment/{id}").buildAndExpand(payment.getId()).toUri());
+
+        LOGGER.info("Payment - Controller- createPayment request processed.");
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     // ------------------- Update a Payment ------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updatePayment(@PathVariable("id") Integer id, @RequestBody Payment payment) {
+        LOGGER.info("Payment - Controller- updatePayment request received.");
 
-        Payment currentPayment = paymentService.findById(id);
+        Payment currentPayment;
 
-        if (currentPayment == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Payment with id " +
-                    "" + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            currentPayment = paymentService.findById(id);
+        } catch (CustomErrorType customError) {
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         currentPayment.setAmount(payment.getAmount());
         currentPayment.setCourseId(payment.getCourseId());
-        currentPayment.setPaymentDate(payment.getPaymentDate());
+        currentPayment.setPaymentDate(new Date());
         currentPayment.setPaymentStatus(payment.getPaymentStatus());
         currentPayment.setSemester(payment.getSemester());
         currentPayment.setStudentId(payment.getStudentId());
 
         paymentService.updatePayment(currentPayment);
+
+        LOGGER.info("Payment - Controller- updatePayment request processed.");
         return new ResponseEntity<>(currentPayment, HttpStatus.OK);
     }
 
     // ------------------- Delete a Payment-----------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletePayment(@PathVariable("id") Integer id) {
+        LOGGER.info("Payment - Controller- deletePayment request received.");
 
-        Payment payment = paymentService.findById(id);
-
-        if (payment == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. " +
-                    "Payment with id " + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+           paymentService.findById(id);
+        } catch (CustomErrorType customError) {
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         paymentService.deletePaymentById(id);
+
+        LOGGER.info("Payment - Controller- deletePayment request processed.");
         return new ResponseEntity<Payment>(HttpStatus.NO_CONTENT);
     }
 
     // ------------------- Delete All Payments-----------------------------
     @RequestMapping(value = "/all", method = RequestMethod.DELETE)
     public ResponseEntity<Payment> deleteAllPayments() {
+        LOGGER.info("Payment - Controller- deletePayment request received.");
 
         paymentService.deleteAllPayments();
+
+        LOGGER.info("Payment - Controller- deletePayment request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

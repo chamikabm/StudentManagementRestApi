@@ -21,7 +21,7 @@ CREATE TABLE `student` (
   PRIMARY KEY (`id`),
   INDEX `idx_student_semester` (`semester`),
   INDEX `idx_student_department` (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `lecturer`;
@@ -37,7 +37,7 @@ CREATE TABLE `lecturer` (
   `department_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_lecturer_department` (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `department`;
@@ -52,7 +52,7 @@ CREATE TABLE `department` (
   REFERENCES lecturer(`id`)
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `course`;
@@ -71,7 +71,7 @@ CREATE TABLE `course` (
   REFERENCES department(`id`)
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `student_course`;
@@ -92,7 +92,7 @@ CREATE TABLE `student_course` (
   REFERENCES course(`id`)
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `semester_course`;
@@ -109,7 +109,7 @@ CREATE TABLE `semester_course` (
   REFERENCES course(`id`)
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `exam`;
@@ -123,7 +123,7 @@ CREATE TABLE `exam` (
   `date` DATE DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_exam_department` (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `student_exam`;
@@ -144,7 +144,7 @@ CREATE TABLE `student_exam` (
   REFERENCES exam(`id`)
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 DROP TABLE IF EXISTS `payment`;
@@ -162,5 +162,5 @@ CREATE TABLE `payment` (
   INDEX `idx_payment_course_id` (`course_id`),
   INDEX `idx_payment_student_id` (`student_id`),
   INDEX `idx_payment_status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=1322 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
