@@ -43,9 +43,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void saveStudent(Student student) {
+    public Student saveStudent(Student student) {
         StudentEntity studentEntity = convertStudentDtoToDao(student);
-        this.studentRepository.save(studentEntity);
+        return convertStudentDaoToDto(this.studentRepository.save(studentEntity));
     }
 
     @Override

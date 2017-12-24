@@ -1,6 +1,5 @@
 package com.student.management.rest.api.Service;
 
-import com.student.management.rest.api.Entity.RegistrationEntity;
 import com.student.management.rest.api.Model.Registration;
 import com.student.management.rest.api.Model.Student;
 
@@ -12,7 +11,7 @@ public interface RegistrationService {
 
     Registration getStudentRegistration(Student student);
 
-    Boolean removeStudentRegistration(Student student);
+    Boolean removeStudentRegistration(Integer studentId);
 
     Boolean isRegisteredStudent(Integer studentId);
 

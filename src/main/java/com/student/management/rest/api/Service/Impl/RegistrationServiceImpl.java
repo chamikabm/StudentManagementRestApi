@@ -42,17 +42,26 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public Registration getStudentRegistration(Student student) {
-        return null;
+
+        return convertRegisterDaoToDto(this.registrationRepository.findByStudentId(student.getId()));
     }
 
     @Override
-    public Boolean removeStudentRegistration(Student student) {
-        return null;
+    public Boolean removeStudentRegistration(Integer studentId) {
+        this.registrationRepository.deleteByStudentId(studentId);
+
+        return Boolean.TRUE;
     }
 
     @Override
     public Boolean isRegisteredStudent(Integer studentId) {
-        return null;
+        Registration registration =  convertRegisterDaoToDto(this.registrationRepository.findByStudentId(studentId));
+
+        if (registration != null) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
     @Override
@@ -68,10 +77,5 @@ public class RegistrationServiceImpl implements RegistrationService {
     private Registration convertRegisterDaoToDto(RegistrationEntity registrationEntity) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(registrationEntity, Registration.class);
-    }
-
-    private RegistrationEntity convertRegisterDtoToDao(Registration registration) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(registration, RegistrationEntity.class);
     }
 }

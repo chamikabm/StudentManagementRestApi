@@ -11,7 +11,7 @@ public interface StudentService {
 
     Student findByName(String name);
 
-    void saveStudent(Student student);
+    Student saveStudent(Student student);
 
     void updateStudent(Student student);
 

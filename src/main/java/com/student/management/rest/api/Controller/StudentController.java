@@ -1,6 +1,7 @@
 package com.student.management.rest.api.Controller;
 
 import com.student.management.rest.api.Model.Student;
+import com.student.management.rest.api.Service.RegistrationService;
 import com.student.management.rest.api.Service.StudentService;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,10 +23,12 @@ public class StudentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
     private final StudentService studentService;
+    private final RegistrationService registrationService;
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, RegistrationService registrationService) {
         this.studentService = studentService;
+        this.registrationService = registrationService;
     }
 
     // -------------------Retrieve All Students--------------------------------------------
@@ -64,10 +68,13 @@ public class StudentController {
 
     // -------------------Create a Student-------------------------------------------
     @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @Transactional
     public ResponseEntity<?> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
         LOGGER.info("Student - Controller- createStudent request received.");
 
-        studentService.saveStudent(student);
+        Student newStudent = studentService.saveStudent(student);
+
+        registrationService.registerNewStudent(newStudent);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/student/{id}").buildAndExpand(student.getId()).toUri());
@@ -106,6 +113,7 @@ public class StudentController {
 
     // ------------------- Delete a Student-----------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @Transactional
     public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
         LOGGER.info("Student - Controller- deleteStudent request received.");
 
@@ -117,6 +125,7 @@ public class StudentController {
         }
 
         studentService.deleteStudentById(id);
+        registrationService.removeStudentRegistration(id);
 
         LOGGER.info("Student - Controller- deleteStudent request processed.");
         return new ResponseEntity<Student>(HttpStatus.NO_CONTENT);

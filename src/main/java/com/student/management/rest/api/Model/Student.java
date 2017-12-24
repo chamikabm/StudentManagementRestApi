@@ -2,7 +2,7 @@ package com.student.management.rest.api.Model;
 
 public class Student {
 
-    private int id;
+    private Integer id;
     private String name;
     private Integer age;
     private String contactNo;
@@ -11,11 +11,11 @@ public class Student {
     private Integer department;
     private Integer semester;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
