@@ -4,6 +4,7 @@ import com.student.management.rest.api.Entity.StudentEntity;
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Repository.StudentRepository;
 import com.student.management.rest.api.Service.StudentService;
+import com.student.management.rest.api.Util.CustomErrorType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student findById(Integer id) {
-        return convertStudentDaoToDto(studentRepository.findOne(id));
+    public Student findById(Integer id) throws CustomErrorType {
+        StudentEntity studentEntity = this.studentRepository.findOne(id);
+        if (studentEntity == null) {
+            throw new CustomErrorType("Student with id " + id + " not found");
+        } else {
+            return convertStudentDaoToDto(studentEntity);
+        }
     }
 
     @Override

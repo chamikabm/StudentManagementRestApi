@@ -4,6 +4,7 @@ import com.student.management.rest.api.Entity.LecturerEntity;
 import com.student.management.rest.api.Model.Lecturer;
 import com.student.management.rest.api.Repository.LecturerRepository;
 import com.student.management.rest.api.Service.LecturerService;
+import com.student.management.rest.api.Util.CustomErrorType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +36,15 @@ public class LecturerServiceImpl implements LecturerService {
     }
 
     @Override
-    public Lecturer findById(Integer id) {
-        return convertDaoToDto(this.lecturerRepository.findOne(id));
+    public Lecturer findById(Integer id) throws CustomErrorType{
+
+        LecturerEntity lecturerEntity = this.lecturerRepository.findOne(id);
+
+        if (lecturerEntity == null) {
+            throw new CustomErrorType("Lecturer with id " + id + " not found");
+        } else {
+            return convertDaoToDto(lecturerEntity);
+        }
     }
 
     @Override

@@ -6,10 +6,8 @@ import com.student.management.rest.api.Repository.PaymentRepository;
 import com.student.management.rest.api.Service.PaymentService;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

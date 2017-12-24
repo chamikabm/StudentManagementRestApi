@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,53 +32,65 @@ public class ExamController {
     // -------------------Retrieve All Exams--------------------------------------------
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Exam>> listAllExams() {
+        LOGGER.info("Exam - Controller- listAllExams request received.");
+
         List<Exam> exams = examService.findAllExams();
 
         if (exams.isEmpty()) {
+            LOGGER.info("Exam - Controller- listAllExams request processed.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
         }
 
+        LOGGER.info("Exam - Controller- listAllExams request processed.");
         return new ResponseEntity<>(exams, HttpStatus.OK);
     }
 
     // -------------------Retrieve Single Exam------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getExam(@PathVariable("id") Integer id) {
-        Exam exam = examService.findById(id);
-        if (exam == null) {
-            return new ResponseEntity<>(new CustomErrorType("Exam with id " + id
-                    + " not found"), HttpStatus.NOT_FOUND);
+        LOGGER.info("Exam - Controller- getExam request received.");
+
+        Exam exam;
+
+        try {
+            exam = examService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Exam - Controller- getExam request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
+        LOGGER.info("Exam - Controller- getExam request processed.");
         return new ResponseEntity<Exam>(exam, HttpStatus.OK);
     }
 
     // -------------------Create a Exam-------------------------------------------
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createExam(@RequestBody Exam exam, UriComponentsBuilder ucBuilder) {
+        LOGGER.info("Exam - Controller- createExam request received.");
 
-        if (examService.isExamExist(exam)) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to create. A Exam with name " +
-                    exam.getName() + " already exist."),HttpStatus.CONFLICT);
-        }
-
+        exam.setDate(new Date());
         examService.addNewExam(exam);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/exam/{id}").buildAndExpand(exam.getId()).toUri());
+
+        LOGGER.info("Exam - Controller- createExam request processed.");
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     // ------------------- Update a Exam ------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateExam(@PathVariable("id") Integer id, @RequestBody Exam exam) {
+        LOGGER.info("Exam - Controller- updateExam request received.");
 
-        Exam currentExam = examService.findById(id);
+        Exam currentExam;
 
-        if (currentExam == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Department with id " +
-                    "" + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            currentExam = examService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Exam - Controller- updateExam request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         currentExam.setName(exam.getName());
@@ -86,29 +99,37 @@ public class ExamController {
         currentExam.setDepartmentId(exam.getDepartmentId());
 
         examService.updateExam(currentExam);
+
+        LOGGER.info("Exam - Controller- updateExam request processed.");
         return new ResponseEntity<>(currentExam, HttpStatus.OK);
     }
 
     // ------------------- Delete a Exam-----------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteExam(@PathVariable("id") Integer id) {
+        LOGGER.info("Exam - Controller- deleteExam request received.");
 
-        Exam exam = examService.findById(id);
-
-        if (exam == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. " +
-                    "Exam with id " + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            examService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Exam - Controller- deleteExam request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         examService.deleteExamById(id);
+
+        LOGGER.info("Exam - Controller- deleteExam request processed.");
         return new ResponseEntity<Exam>(HttpStatus.NO_CONTENT);
     }
 
     // ------------------- Delete All Exams-----------------------------
     @RequestMapping(value = "/all", method = RequestMethod.DELETE)
     public ResponseEntity<Exam> deleteAllExams() {
+        LOGGER.info("Exam - Controller- deleteAllExams request received.");
 
         examService.deleteAllExams();
+
+        LOGGER.info("Exam - Controller- deleteAllExams request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

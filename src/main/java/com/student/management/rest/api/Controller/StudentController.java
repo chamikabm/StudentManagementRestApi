@@ -30,57 +30,64 @@ public class StudentController {
     // -------------------Retrieve All Students--------------------------------------------
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Student>> listAllStudents() {
+        LOGGER.info("Student - Controller- listAllStudents request received.");
 
         List<Student> students = studentService.findAllStudents();
 
         if (students.isEmpty()) {
+            LOGGER.info("Student - Controller- listAllStudents request processed.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
         }
 
+        LOGGER.info("Student - Controller- listAllStudents request processed.");
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
     // -------------------Retrieve Single Student------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getStudent(@PathVariable("id") Integer id) {
+        LOGGER.info("Student - Controller- getStudent request received.");
 
-        Student student = studentService.findById(id);
-        if (student == null) {
-            //logger.error("User with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("User with id " + id
-                    + " not found"), HttpStatus.NOT_FOUND);
+        Student student;
+
+        try {
+            student = studentService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Student - Controller- getStudent request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
+        LOGGER.info("Student - Controller- getStudent request processed.");
         return new ResponseEntity<Student>(student, HttpStatus.OK);
     }
 
     // -------------------Create a Student-------------------------------------------
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
-
-        if (studentService.isStudentExist(student)) {
-            //logger.error("Unable to create. A User with name {} already exist", user.getName());
-            return new ResponseEntity<>(new CustomErrorType("Unable to create. A Student with name " +
-                    student.getName() + " already exist."),HttpStatus.CONFLICT);
-        }
+        LOGGER.info("Student - Controller- createStudent request received.");
 
         studentService.saveStudent(student);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/student/{id}").buildAndExpand(student.getId()).toUri());
+
+        LOGGER.info("Student - Controller- createStudent request processed.");
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     // ------------------- Update a Student ------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody Student student) {
+        LOGGER.info("Student - Controller- updateStudent request received.");
 
-        Student currentStudent = studentService.findById(id);
+        Student currentStudent;
 
-        if (currentStudent == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Student with id " +
-                    "" + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            currentStudent = studentService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Student - Controller- updateStudent request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         currentStudent.setName(student.getName());
@@ -92,29 +99,37 @@ public class StudentController {
         currentStudent.setSemester(student.getSemester());
 
         studentService.updateStudent(currentStudent);
+
+        LOGGER.info("Student - Controller- updateStudent request processed.");
         return new ResponseEntity<>(currentStudent, HttpStatus.OK);
     }
 
     // ------------------- Delete a Student-----------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
+        LOGGER.info("Student - Controller- deleteStudent request received.");
 
-        Student student = studentService.findById(id);
-
-        if (student == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. " +
-                    "Student with id " + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            studentService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Student - Controller- deleteStudent request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         studentService.deleteStudentById(id);
+
+        LOGGER.info("Student - Controller- deleteStudent request processed.");
         return new ResponseEntity<Student>(HttpStatus.NO_CONTENT);
     }
 
     // ------------------- Delete All Students-----------------------------
     @RequestMapping(value = "/all", method = RequestMethod.DELETE)
     public ResponseEntity<Student> deleteAllUsers() {
+        LOGGER.info("Student - Controller- deleteAllUsers request received.");
 
         studentService.deleteAllStudents();
+
+        LOGGER.info("Student - Controller- deleteAllUsers request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -31,82 +31,100 @@ public class DepartmentController {
     // -------------------Retrieve All Departments--------------------------------------------
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Department>> listAllDepartments() {
+        LOGGER.info("Department - Controller- listAllDepartments request received.");
         List<Department> departments = departmentService.findAllDepartments();
 
         if (departments.isEmpty()) {
+            LOGGER.info("Department - Controller- listAllDepartments request processed.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             // You many decide to return HttpStatus.NOT_FOUND
         }
 
+        LOGGER.info("Department - Controller- listAllDepartments request processed.");
         return new ResponseEntity<>(departments, HttpStatus.OK);
     }
 
     // -------------------Retrieve Single Department------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getDepartment(@PathVariable("id") Integer id) {
-        Department department = departmentService.findById(id);
-        if (department == null) {
-            return new ResponseEntity<>(new CustomErrorType("Department with id " + id
-                    + " not found"), HttpStatus.NOT_FOUND);
+        LOGGER.info("Department - Controller- getDepartment request received.");
+
+        Department department;
+
+        try {
+            department = departmentService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Department - Controller- getDepartment request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
+        LOGGER.info("Department - Controller- getDepartment request processed.");
         return new ResponseEntity<Department>(department, HttpStatus.OK);
     }
 
-    // -------------------Create a Student-------------------------------------------
+    // -------------------Create a Department-------------------------------------------
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createDepartment(@RequestBody Department department, UriComponentsBuilder ucBuilder) {
-
-        if (departmentService.isDepartmentExist(department)) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to create. A Department with name " +
-                    department.getName() + " already exist."),HttpStatus.CONFLICT);
-        }
+        LOGGER.info("Department - Controller- createDepartment request received.");
 
         departmentService.addNewDepartment(department);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/department/{id}").buildAndExpand(department.getId()).toUri());
+
+        LOGGER.info("Department - Controller- createDepartment request processed.");
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     // ------------------- Update a Department ------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateDepartment(@PathVariable("id") Integer id, @RequestBody Department department) {
+        LOGGER.info("Department - Controller- updateDepartment request received.");
 
-        Department currentDepartment = departmentService.findById(id);
+        Department currentDepartment;
 
-        if (currentDepartment == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to update. Department with id " +
-                    "" + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            currentDepartment = departmentService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Department - Controller- updateDepartment request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         currentDepartment.setName(department.getName());
         currentDepartment.setDepartmentHeadId(department.getDepartmentHeadId());
 
         departmentService.updateDepartment(currentDepartment);
+
+        LOGGER.info("Department - Controller- updateDepartment request processed.");
         return new ResponseEntity<>(currentDepartment, HttpStatus.OK);
     }
 
     // ------------------- Delete a Department-----------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteDepartment(@PathVariable("id") Integer id) {
+        LOGGER.info("Department - Controller- deleteDepartment request received.");
 
-        Department department = departmentService.findById(id);
-
-        if (department == null) {
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. " +
-                    "Department with id " + id + " not found."), HttpStatus.NOT_FOUND);
+        try {
+            departmentService.findById(id);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Department - Controller- deleteDepartment request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
         departmentService.deleteDepartmentById(id);
+
+        LOGGER.info("Department - Controller- deleteDepartment request processed.");
         return new ResponseEntity<Department>(HttpStatus.NO_CONTENT);
     }
 
     // ------------------- Delete All Departments-----------------------------
     @RequestMapping(value = "/all", method = RequestMethod.DELETE)
     public ResponseEntity<Department> deleteAllDepartments() {
+        LOGGER.info("Department - Controller- deleteAllDepartments request received.");
 
         departmentService.deleteAllDepartments();
+
+        LOGGER.info("Department - Controller- deleteAllDepartments request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,13 +1,14 @@
 package com.student.management.rest.api.Service;
 
 import com.student.management.rest.api.Model.Lecturer;
+import com.student.management.rest.api.Util.CustomErrorType;
 
 import java.util.List;
 
 public interface LecturerService {
     List<Lecturer> findAllLecturers();
 
-    Lecturer findById(Integer id);
+    Lecturer findById(Integer id) throws CustomErrorType;
 
     boolean isLecturerExist(Lecturer lecturer);
 

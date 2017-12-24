@@ -4,6 +4,7 @@ import com.student.management.rest.api.Entity.DepartmentEntity;
 import com.student.management.rest.api.Model.Department;
 import com.student.management.rest.api.Repository.DepartmentRepository;
 import com.student.management.rest.api.Service.DepartmentService;
+import com.student.management.rest.api.Util.CustomErrorType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department findById(Integer id) {
-        return convertDaoToDto(departmentRepository.findOne(id));
+    public Department findById(Integer id) throws CustomErrorType {
+        DepartmentEntity departmentEntity = this.departmentRepository.findOne(id);
+        if (departmentEntity == null) {
+            throw new CustomErrorType("Department with id " + id + " not found");
+        } else {
+            return convertDaoToDto(departmentEntity);
+        }
     }
 
     @Override

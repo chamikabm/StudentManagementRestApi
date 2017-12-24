@@ -36,6 +36,7 @@ public class PaymentController {
         List<Payment> payments = paymentService.findAllPayments();
 
         if (payments.isEmpty()) {
+            LOGGER.info("Payment - Controller- listAllPayments request processed.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -48,13 +49,16 @@ public class PaymentController {
     public ResponseEntity<?> getPayment(@PathVariable("id") Integer id) {
         LOGGER.info("Payment - Controller- getPayment request received.");
 
-        Payment payment = null;
+        Payment payment;
+
         try {
             payment = paymentService.findById(id);
         } catch (CustomErrorType customError) {
+            LOGGER.info("Payment - Controller- getPayment request processed.");
             return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
+        LOGGER.info("Payment - Controller- getPayment request processed.");
         return new ResponseEntity<Payment>(payment, HttpStatus.OK);
     }
 
@@ -83,6 +87,7 @@ public class PaymentController {
         try {
             currentPayment = paymentService.findById(id);
         } catch (CustomErrorType customError) {
+            LOGGER.info("Payment - Controller- updatePayment request processed.");
             return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 
@@ -107,6 +112,7 @@ public class PaymentController {
         try {
            paymentService.findById(id);
         } catch (CustomErrorType customError) {
+            LOGGER.info("Payment - Controller- deletePayment request processed.");
             return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.NOT_FOUND);
         }
 

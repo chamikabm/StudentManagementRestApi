@@ -1,12 +1,13 @@
 package com.student.management.rest.api.Service;
 
 import com.student.management.rest.api.Model.Department;
+import com.student.management.rest.api.Util.CustomErrorType;
 
 import java.util.List;
 
 public interface DepartmentService {
 
-    Department findById(Integer id);
+    Department findById(Integer id) throws CustomErrorType;
 
     Department findByName(String departmentName);
 

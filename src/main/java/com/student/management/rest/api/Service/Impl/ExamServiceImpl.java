@@ -4,6 +4,7 @@ import com.student.management.rest.api.Entity.ExamEntity;
 import com.student.management.rest.api.Model.Exam;
 import com.student.management.rest.api.Repository.ExamRepository;
 import com.student.management.rest.api.Service.ExamService;
+import com.student.management.rest.api.Util.CustomErrorType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +36,15 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Exam findById(Integer id) {
-        return convertDaoToDto(this.examRepository.findOne(id));
+    public Exam findById(Integer id) throws CustomErrorType{
+
+        ExamEntity examEntity = this.examRepository.findOne(id);
+
+        if (examEntity == null) {
+            throw new CustomErrorType("Exam with id " + id + " not found");
+        } else {
+            return convertDaoToDto(examEntity);
+        }
     }
 
     @Override
