@@ -164,3 +164,20 @@ CREATE TABLE `payment` (
   INDEX `idx_payment_status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `student_register`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_register` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `student_id` INT(11) NOT NULL,
+  `is_registered` TINYINT(1) unsigned NOT NULL DEFAULT 0,
+  `registered_date` DATE DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_student_register_student_id` FOREIGN KEY (`student_id`)
+  REFERENCES student(`id`)
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION,
+  INDEX `idx_student_register_1` (`student_id`, `is_registered`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;

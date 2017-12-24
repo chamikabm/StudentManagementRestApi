@@ -134,5 +134,15 @@ INSERT INTO `payment` VALUES (20,1, 4, 5000.00, 3,CURDATE(), 'PAID');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
+LOCK TABLES `student_register` WRITE;
+/*!40000 ALTER TABLE `student_register` DISABLE KEYS */;
+INSERT INTO `student_register` VALUES (1,1,1,CURDATE());
+INSERT INTO `student_register` VALUES (2,2,1,CURDATE());
+INSERT INTO `student_register` VALUES (3,3,1,CURDATE());
+INSERT INTO `student_register` VALUES (4,5,1,CURDATE());
+INSERT INTO `student_register` VALUES (5,8,1,CURDATE());
+/*!40000 ALTER TABLE `student_register` ENABLE KEYS */;
+UNLOCK TABLES;
+
 /* Enable foreign key constrains */
 SET FOREIGN_KEY_CHECKS=1;
