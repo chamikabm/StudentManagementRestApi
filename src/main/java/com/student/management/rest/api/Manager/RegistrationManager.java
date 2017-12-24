@@ -1,4 +1,8 @@
 package com.student.management.rest.api.Manager;
 
-public class RegistrationManager {
+import com.student.management.rest.api.Model.Registration;
+
+public interface RegistrationManager {
+
+    Boolean isValidRegistration(Registration registration);
 }

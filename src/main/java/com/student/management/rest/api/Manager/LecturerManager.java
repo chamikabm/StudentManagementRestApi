@@ -1,4 +1,8 @@
 package com.student.management.rest.api.Manager;
 
-public class LecturerManager {
+import com.student.management.rest.api.Model.Lecturer;
+
+public interface LecturerManager {
+
+    Boolean isValidLecturer(Lecturer lecturer);
 }
