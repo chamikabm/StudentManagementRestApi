@@ -2,7 +2,14 @@ package com.student.management.rest.api.Manager;
 
 import com.student.management.rest.api.Model.Lecturer;
 
-public interface LecturerManager {
+public class LecturerManager {
 
-    Boolean isValidLecturer(Lecturer lecturer);
+    public Boolean isValidLecturer(Lecturer lecturer) {
+        if (lecturer.getName() == null || lecturer.getDepartmentId() == null) {
+
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+    }
 }

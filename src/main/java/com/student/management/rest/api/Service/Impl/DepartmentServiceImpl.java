@@ -1,6 +1,7 @@
 package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.DepartmentEntity;
+import com.student.management.rest.api.Manager.DepartmentManager;
 import com.student.management.rest.api.Model.Department;
 import com.student.management.rest.api.Repository.DepartmentRepository;
 import com.student.management.rest.api.Service.DepartmentService;
@@ -43,9 +44,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void addNewDepartment(Department department) {
-        DepartmentEntity departmentEntity = convertDtoToDao(department);
-        this.departmentRepository.save(departmentEntity);
+    public void addNewDepartment(Department department) throws CustomErrorType{
+
+        DepartmentManager departmentManager = new DepartmentManager();
+
+        if (departmentManager.isValidDepartment(department)) {
+            DepartmentEntity departmentEntity = convertDtoToDao(department);
+            this.departmentRepository.save(departmentEntity);
+        } else {
+            throw new CustomErrorType("Invalid Department Object Found!");
+        }
+
     }
 
     @Override

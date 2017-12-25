@@ -70,7 +70,13 @@ public class ExamController {
         LOGGER.info("Exam - Controller- createExam request received.");
 
         exam.setDate(new Date());
-        examService.addNewExam(exam);
+
+        try {
+            examService.addNewExam(exam);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Exam - Controller- createExam request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/exam/{id}").buildAndExpand(exam.getId()).toUri());

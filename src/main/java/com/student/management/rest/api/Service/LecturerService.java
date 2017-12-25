@@ -12,7 +12,7 @@ public interface LecturerService {
 
     boolean isLecturerExist(Lecturer lecturer);
 
-    void addNewLecturer(Lecturer lecturer);
+    void addNewLecturer(Lecturer lecturer) throws CustomErrorType;
 
     void updateLecturer(Lecturer currentLecturer);
 

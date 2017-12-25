@@ -13,7 +13,7 @@ public interface ExamService {
 
     boolean isExamExist(Exam exam);
 
-    void addNewExam(Exam exam);
+    void addNewExam(Exam exam) throws CustomErrorType;
 
     void updateExam(Exam currentExam);
 

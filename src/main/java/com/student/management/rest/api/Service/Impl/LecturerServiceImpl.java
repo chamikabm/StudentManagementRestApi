@@ -1,6 +1,7 @@
 package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.LecturerEntity;
+import com.student.management.rest.api.Manager.LecturerManager;
 import com.student.management.rest.api.Model.Lecturer;
 import com.student.management.rest.api.Repository.LecturerRepository;
 import com.student.management.rest.api.Service.LecturerService;
@@ -53,9 +54,16 @@ public class LecturerServiceImpl implements LecturerService {
     }
 
     @Override
-    public void addNewLecturer(Lecturer lecturer) {
-        LecturerEntity lecturerEntity = convertDtoToDao(lecturer);
-        this.lecturerRepository.save(lecturerEntity);
+    public void addNewLecturer(Lecturer lecturer) throws CustomErrorType {
+
+        LecturerManager lecturerManager = new LecturerManager();
+
+        if (lecturerManager.isValidLecturer(lecturer)) {
+            LecturerEntity lecturerEntity = convertDtoToDao(lecturer);
+            this.lecturerRepository.save(lecturerEntity);
+        } else {
+            throw new CustomErrorType("Invalid Lecturer Object Found!");
+        }
     }
 
     @Override

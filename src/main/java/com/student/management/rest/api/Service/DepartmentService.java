@@ -11,7 +11,7 @@ public interface DepartmentService {
 
     Department findByName(String departmentName);
 
-    void addNewDepartment(Department department);
+    void addNewDepartment(Department department) throws CustomErrorType;
 
     void updateDepartment(Department department);
 

@@ -12,7 +12,7 @@ public interface PaymentService {
 
     boolean isPaymentExist(Payment payment);
 
-    void addNewPayment(Payment payment);
+    void addNewPayment(Payment payment) throws CustomErrorType;
 
     void updatePayment(Payment currentPayment);
 

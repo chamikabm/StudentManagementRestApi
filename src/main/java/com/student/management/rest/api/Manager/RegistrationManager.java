@@ -2,7 +2,16 @@ package com.student.management.rest.api.Manager;
 
 import com.student.management.rest.api.Model.Registration;
 
-public interface RegistrationManager {
+public class RegistrationManager {
 
-    Boolean isValidRegistration(Registration registration);
+    public Boolean isValidRegistration(Registration registration) {
+
+        if (registration.getStudentId() == null || registration.getIsRegistered() == null) {
+
+            return Boolean.FALSE;
+        } else {
+
+            return Boolean.TRUE;
+        }
+    }
 }

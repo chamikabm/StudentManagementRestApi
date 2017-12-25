@@ -72,9 +72,17 @@ public class StudentController {
     public ResponseEntity<?> createStudent(@RequestBody Student student, UriComponentsBuilder ucBuilder) {
         LOGGER.info("Student - Controller- createStudent request received.");
 
-        Student newStudent = studentService.saveStudent(student);
+        Student newStudent;
+
+        try {
+            newStudent = studentService.saveStudent(student);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Student - Controller- createStudent request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         registrationService.registerNewStudent(newStudent);
+
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/student/{id}").buildAndExpand(student.getId()).toUri());

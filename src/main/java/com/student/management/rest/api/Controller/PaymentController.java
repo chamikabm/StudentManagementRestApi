@@ -68,7 +68,13 @@ public class PaymentController {
         LOGGER.info("Payment - Controller- createPayment request received. data id : {} ", payment.getId());
 
         payment.setPaymentDate(new Date());
-        paymentService.addNewPayment(payment);
+
+        try {
+            paymentService.addNewPayment(payment);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Payment - Controller- createPayment request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/payment/{id}").buildAndExpand(payment.getId()).toUri());

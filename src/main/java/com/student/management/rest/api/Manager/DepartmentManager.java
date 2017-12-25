@@ -2,6 +2,13 @@ package com.student.management.rest.api.Manager;
 
 import com.student.management.rest.api.Model.Department;
 
-public interface DepartmentManager {
-    Boolean isValidDepartment(Department department);
+public class DepartmentManager {
+
+    public Boolean isValidDepartment(Department department) {
+        if (department.getName() == null || department.getDepartmentHeadId() == null) {
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+    }
 }

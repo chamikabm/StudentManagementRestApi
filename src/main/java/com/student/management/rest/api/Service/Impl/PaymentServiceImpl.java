@@ -1,6 +1,7 @@
 package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.PaymentEntity;
+import com.student.management.rest.api.Manager.PaymentManager;
 import com.student.management.rest.api.Model.Payment;
 import com.student.management.rest.api.Repository.PaymentRepository;
 import com.student.management.rest.api.Service.PaymentService;
@@ -51,9 +52,16 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void addNewPayment(Payment payment) {
-        PaymentEntity paymentEntity = convertDtoToDao(payment);
-        this.paymentRepository.save(paymentEntity);
+    public void addNewPayment(Payment payment) throws CustomErrorType {
+
+        PaymentManager paymentManager = new PaymentManager();
+
+        if (paymentManager.isValidPayment(payment)) {
+            PaymentEntity paymentEntity = convertDtoToDao(payment);
+            this.paymentRepository.save(paymentEntity);
+        } else {
+            throw new CustomErrorType("Invalid Payment Object Found!");
+        }
     }
 
     @Override

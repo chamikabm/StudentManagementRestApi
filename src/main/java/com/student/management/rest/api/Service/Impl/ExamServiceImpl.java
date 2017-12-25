@@ -1,6 +1,7 @@
 package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.ExamEntity;
+import com.student.management.rest.api.Manager.ExamManager;
 import com.student.management.rest.api.Model.Exam;
 import com.student.management.rest.api.Repository.ExamRepository;
 import com.student.management.rest.api.Service.ExamService;
@@ -53,9 +54,17 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public void addNewExam(Exam exam) {
-        ExamEntity examEntity = convertDtoToDao(exam);
-        this.examRepository.save(examEntity);
+    public void addNewExam(Exam exam) throws CustomErrorType {
+
+        ExamManager examManager = new ExamManager();
+
+        if(examManager.isValidExam(exam)) {
+            ExamEntity examEntity = convertDtoToDao(exam);
+            this.examRepository.save(examEntity);
+        } else {
+            throw new CustomErrorType("Invalid Exam Object Found!");
+        }
+
     }
 
     @Override

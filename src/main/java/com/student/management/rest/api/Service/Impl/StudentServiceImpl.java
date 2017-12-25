@@ -1,6 +1,7 @@
 package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.StudentEntity;
+import com.student.management.rest.api.Manager.StudentManager;
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Repository.StudentRepository;
 import com.student.management.rest.api.Service.StudentService;
@@ -43,9 +44,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student saveStudent(Student student) {
-        StudentEntity studentEntity = convertStudentDtoToDao(student);
-        return convertStudentDaoToDto(this.studentRepository.save(studentEntity));
+    public Student saveStudent(Student student) throws CustomErrorType {
+
+        StudentManager studentManager = new StudentManager();
+
+        if(studentManager.isValidStudent(student)) {
+            StudentEntity studentEntity = convertStudentDtoToDao(student);
+            return convertStudentDaoToDto(this.studentRepository.save(studentEntity));
+        } else {
+            throw new CustomErrorType("Invalid Student Object Found!");
+        }
     }
 
     @Override

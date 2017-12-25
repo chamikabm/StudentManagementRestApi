@@ -11,7 +11,7 @@ public interface StudentService {
 
     Student findByName(String name);
 
-    Student saveStudent(Student student);
+    Student saveStudent(Student student) throws CustomErrorType;
 
     void updateStudent(Student student);
 

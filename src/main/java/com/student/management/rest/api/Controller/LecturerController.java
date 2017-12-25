@@ -67,7 +67,12 @@ public class LecturerController {
     public ResponseEntity<?> createLecturer(@RequestBody Lecturer lecturer, UriComponentsBuilder ucBuilder) {
         LOGGER.info("Lecturer - Controller- createLecturer request received.");
 
-        lecturerService.addNewLecturer(lecturer);
+        try {
+            lecturerService.addNewLecturer(lecturer);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Lecturer - Controller- createLecturer request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/lecturer/{id}").buildAndExpand(lecturer.getId()).toUri());

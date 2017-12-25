@@ -67,7 +67,12 @@ public class DepartmentController {
     public ResponseEntity<?> createDepartment(@RequestBody Department department, UriComponentsBuilder ucBuilder) {
         LOGGER.info("Department - Controller- createDepartment request received.");
 
-        departmentService.addNewDepartment(department);
+        try {
+            departmentService.addNewDepartment(department);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("Department - Controller- createDepartment request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/department/{id}").buildAndExpand(department.getId()).toUri());
