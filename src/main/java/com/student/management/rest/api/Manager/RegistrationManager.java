@@ -10,6 +10,10 @@ public class RegistrationManager {
 
     public Boolean isValidRegistration(Registration registration) {
 
+        LOGGER.info("Registration - Manager- isValidRegistration method invoked.");
+
+        LOGGER.info("Registration - Manager- isValidRegistration method processed.");
+
         if (registration.getStudentId() == null || registration.getIsRegistered() == null) {
 
             return Boolean.FALSE;

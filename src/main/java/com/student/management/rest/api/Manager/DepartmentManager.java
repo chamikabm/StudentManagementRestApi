@@ -9,6 +9,10 @@ public class DepartmentManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentManager.class);
 
     public Boolean isValidDepartment(Department department) {
+
+        LOGGER.info("Department - Manager- isValidDepartment method invoked.");
+
+        LOGGER.info("Department - Manager- isValidDepartment method processed.");
         if (department.getName() == null || department.getDepartmentHeadId() == null) {
             return Boolean.FALSE;
         } else {

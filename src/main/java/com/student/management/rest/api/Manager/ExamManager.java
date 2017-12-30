@@ -9,6 +9,11 @@ public class ExamManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamManager.class);
 
     public Boolean isValidExam(Exam exam) {
+
+        LOGGER.info("Exam - Manager- isValidExam method invoked.");
+
+        LOGGER.info("Exam - Manager- isValidExam method processed.");
+
         if (exam.getName() == null || exam.getCourseId() == null ||
                 exam.getDepartmentId() == null) {
 

@@ -9,6 +9,11 @@ public class LecturerManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(LecturerManager.class);
 
     public Boolean isValidLecturer(Lecturer lecturer) {
+
+        LOGGER.info("Lecturer - Manager- isValidLecturer method invoked.");
+
+        LOGGER.info("Lecturer - Manager- isValidLecturer method processed.");
+
         if (lecturer.getName() == null || lecturer.getDepartmentId() == null) {
 
             return Boolean.FALSE;

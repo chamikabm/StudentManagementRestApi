@@ -9,6 +9,11 @@ public class StudentManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentManager.class);
 
     public Boolean isValidStudent(Student student) {
+
+        LOGGER.info("Student - Manager- isValidStudent method invoked.");
+
+        LOGGER.info("Student - Manager- isValidStudent method processed.");
+
         if (student.getName() == null || student.getDepartment() == null
                 || student.getSemester() == null) {
 
