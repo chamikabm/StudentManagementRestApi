@@ -30,7 +30,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findById(Integer id) throws CustomErrorType {
+        LOGGER.info("Student - Service- findById method invoked.");
+
         StudentEntity studentEntity = this.studentRepository.findOne(id);
+
+        LOGGER.info("Student - Service- findById method processed.");
         if (studentEntity == null) {
             throw new CustomErrorType("Student with id " + id + " not found");
         } else {
@@ -45,8 +49,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student saveStudent(Student student) throws CustomErrorType {
+        LOGGER.info("Student - Service- saveStudent method invoked.");
 
         StudentManager studentManager = new StudentManager();
+
+        LOGGER.info("Student - Service- saveStudent method processed.");
 
         if(studentManager.isValidStudent(student)) {
             StudentEntity studentEntity = convertStudentDtoToDao(student);
@@ -63,14 +70,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteStudentById(Integer id) {
+        LOGGER.info("Student - Service- deleteStudentById method invoked.");
+
         this.studentRepository.delete(id);
+
+        LOGGER.info("Student - Service- deleteStudentById method processed.");
     }
 
     @Override
     public List<Student> findAllStudents() {
+        LOGGER.info("Student - Service- findAllStudents method invoked.");
 
         List<StudentEntity> studentEntities = new ArrayList<>();
         this.studentRepository.findAll().forEach(studentEntities::add);
+
+        LOGGER.info("Student - Service- findAllStudents method processed.");
 
         return  studentEntities.stream()
                 .map(this::convertStudentDaoToDto)
@@ -84,6 +98,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void deleteAllStudents() {
+        LOGGER.info("Student - Service- deleteAllStudents method invoked.");
+
+        LOGGER.info("Student - Service- deleteAllStudents method processed.");
         this.studentRepository.deleteAll();
     }
 
@@ -94,6 +111,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public boolean isStudentExist(Student student) {
+        LOGGER.info("Student - Service- isStudentExist method invoked.");
+
+        LOGGER.info("Student - Service- isStudentExist method processed.");
         return this.studentRepository.exists(student.getId());
     }
 
