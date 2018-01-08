@@ -28,12 +28,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> findAllPayments() {
-        LOGGER.info("Payment - Service- findAllPayments method invoked.");
+        LOGGER.info("SMAPI - Payment - Service- findAllPayments method invoked.");
 
         List<PaymentEntity> paymentEntities = new ArrayList<>();
         this.paymentRepository.findAll().forEach(paymentEntities::add);
 
-        LOGGER.info("Payment - Service- findAllPayments method processed.");
+        LOGGER.info("SMAPI - Payment - Service- findAllPayments method processed.");
         return  paymentEntities.stream()
                 .map(this::convertDaoToDto)
                 .collect(Collectors.toList());
@@ -41,23 +41,23 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment findById(Integer id) throws CustomErrorType {
-        LOGGER.info("Payment - Service- findById method invoked.");
+        LOGGER.info("SMAPI - Payment - Service- findById method invoked.");
 
         PaymentEntity paymentEntity = this.paymentRepository.findOne(id);
         if (paymentEntity == null) {
-            LOGGER.info("Payment - Service- findById method processed.");
+            LOGGER.info("SMAPI - Payment - Service- findById method processed.");
             throw new CustomErrorType("Payment with id " + id + " not found");
         } else {
-            LOGGER.info("Payment - Service- findById method processed.");
+            LOGGER.info("SMAPI - Payment - Service- findById method processed.");
             return convertDaoToDto(paymentEntity);
         }
     }
 
     @Override
     public boolean isPaymentExist(Payment payment) {
-        LOGGER.info("Payment - Service- isPaymentExist method invoked.");
+        LOGGER.info("SMAPI - Payment - Service- isPaymentExist method invoked.");
 
-        LOGGER.info("Payment - Service- isPaymentExist method processed.");
+        LOGGER.info("SMAPI - Payment - Service- isPaymentExist method processed.");
 
         return this.paymentRepository.exists(payment.getId());
     }
@@ -65,17 +65,17 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void addNewPayment(Payment payment) throws CustomErrorType {
 
-        LOGGER.info("Payment - Service- addNewPayment method invoked.");
+        LOGGER.info("SMAPI - Payment - Service- addNewPayment method invoked.");
 
         PaymentManager paymentManager = new PaymentManager();
 
         if (paymentManager.isValidPayment(payment)) {
             PaymentEntity paymentEntity = convertDtoToDao(payment);
             this.paymentRepository.save(paymentEntity);
-            LOGGER.info("Payment - Service- addNewPayment method processed.");
+            LOGGER.info("SMAPI - Payment - Service- addNewPayment method processed.");
 
         } else {
-            LOGGER.info("Payment - Service- addNewPayment method processed.");
+            LOGGER.info("SMAPI - Payment - Service- addNewPayment method processed.");
 
             throw new CustomErrorType("Invalid Payment Object Found!");
         }
@@ -88,9 +88,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void deletePaymentById(Integer id) {
-        LOGGER.info("Payment - Service- deletePaymentById method invoked.");
+        LOGGER.info("SMAPI - Payment - Service- deletePaymentById method invoked.");
 
-        LOGGER.info("Payment - Service- deletePaymentById method processed.");
+        LOGGER.info("SMAPI - Payment - Service- deletePaymentById method processed.");
 
         this.paymentRepository.delete(id);
 
@@ -98,11 +98,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void deleteAllPayments() {
-        LOGGER.info("Payment - Service- deleteAllPayments method invoked.");
+        LOGGER.info("SMAPI - Payment - Service- deleteAllPayments method invoked.");
 
         this.paymentRepository.deleteAll();
 
-        LOGGER.info("Payment - Service- deleteAllPayments method processed.");
+        LOGGER.info("SMAPI - Payment - Service- deleteAllPayments method processed.");
     }
 
     private Payment convertDaoToDto(PaymentEntity paymentEntity) {

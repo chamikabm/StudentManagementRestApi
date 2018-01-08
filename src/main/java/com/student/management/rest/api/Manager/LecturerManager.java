@@ -10,9 +10,9 @@ public class LecturerManager {
 
     public Boolean isValidLecturer(Lecturer lecturer) {
 
-        LOGGER.info("Lecturer - Manager- isValidLecturer method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Manager- isValidLecturer method invoked.");
 
-        LOGGER.info("Lecturer - Manager- isValidLecturer method processed.");
+        LOGGER.info("SMAPI - Lecturer - Manager- isValidLecturer method processed.");
 
         if (lecturer.getName() == null || lecturer.getDepartmentId() == null) {
 

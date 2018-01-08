@@ -10,9 +10,9 @@ public class PaymentManager {
 
     public Boolean isValidPayment(Payment payment) {
 
-        LOGGER.info("Payment - Manager- isValidPayment method invoked.");
+        LOGGER.info("SMAPI - Payment - Manager- isValidPayment method invoked.");
 
-        LOGGER.info("Payment - Manager- isValidPayment method processed.");
+        LOGGER.info("SMAPI - Payment - Manager- isValidPayment method processed.");
 
         if (payment.getAmount() == null || payment.getCourseId() == null
                 || payment.getPaymentStatus() == null || payment.getSemester() == null
@@ -27,9 +27,9 @@ public class PaymentManager {
 
     public Boolean isValidAmount(Double amount) {
 
-        LOGGER.info("Payment - Manager- isValidAmount method invoked.");
+        LOGGER.info("SMAPI - Payment - Manager- isValidAmount method invoked.");
 
-        LOGGER.info("Payment - Manager- isValidAmount method processed.");
+        LOGGER.info("SMAPI - Payment - Manager- isValidAmount method processed.");
 
         try {
             Double.parseDouble(Double.toString(amount));

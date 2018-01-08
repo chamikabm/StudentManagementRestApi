@@ -28,12 +28,12 @@ public class LecturerServiceImpl implements LecturerService {
 
     @Override
     public List<Lecturer> findAllLecturers() {
-        LOGGER.info("Lecturer - Service- findAllLecturers method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Service- findAllLecturers method invoked.");
 
         List<LecturerEntity> lecturerEntities = new ArrayList<>();
         this.lecturerRepository.findAll().forEach(lecturerEntities::add);
 
-        LOGGER.info("Lecturer - Service- findAllLecturers method processed.");
+        LOGGER.info("SMAPI - Lecturer - Service- findAllLecturers method processed.");
         return  lecturerEntities.stream()
                 .map(this::convertDaoToDto)
                 .collect(Collectors.toList());
@@ -41,16 +41,16 @@ public class LecturerServiceImpl implements LecturerService {
 
     @Override
     public Lecturer findById(Integer id) throws CustomErrorType {
-        LOGGER.info("Lecturer - Service- findById method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Service- findById method invoked.");
 
         LecturerEntity lecturerEntity = this.lecturerRepository.findOne(id);
 
         if (lecturerEntity == null) {
-            LOGGER.info("Lecturer - Service- findById method processed.");
+            LOGGER.info("SMAPI - Lecturer - Service- findById method processed.");
 
             throw new CustomErrorType("Lecturer with id " + id + " not found");
         } else {
-            LOGGER.info("Lecturer - Service- findById method processed.");
+            LOGGER.info("SMAPI - Lecturer - Service- findById method processed.");
 
             return convertDaoToDto(lecturerEntity);
         }
@@ -58,26 +58,26 @@ public class LecturerServiceImpl implements LecturerService {
 
     @Override
     public boolean isLecturerExist(Lecturer lecturer) {
-        LOGGER.info("Lecturer - Service- isLecturerExist method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Service- isLecturerExist method invoked.");
 
-        LOGGER.info("Lecturer - Service- isLecturerExist method processed.");
+        LOGGER.info("SMAPI - Lecturer - Service- isLecturerExist method processed.");
 
         return this.lecturerRepository.exists(lecturer.getId());
     }
 
     @Override
     public void addNewLecturer(Lecturer lecturer) throws CustomErrorType {
-        LOGGER.info("Lecturer - Service- addNewLecturer method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Service- addNewLecturer method invoked.");
 
         LecturerManager lecturerManager = new LecturerManager();
 
         if (lecturerManager.isValidLecturer(lecturer)) {
             LecturerEntity lecturerEntity = convertDtoToDao(lecturer);
             this.lecturerRepository.save(lecturerEntity);
-            LOGGER.info("Lecturer - Service- addNewLecturer method processed.");
+            LOGGER.info("SMAPI - Lecturer - Service- addNewLecturer method processed.");
 
         } else {
-            LOGGER.info("Lecturer - Service- addNewLecturer method processed.");
+            LOGGER.info("SMAPI - Lecturer - Service- addNewLecturer method processed.");
 
             throw new CustomErrorType("Invalid Lecturer Object Found!");
         }
@@ -90,20 +90,20 @@ public class LecturerServiceImpl implements LecturerService {
 
     @Override
     public void deleteLecturerById(Integer id) {
-        LOGGER.info("Lecturer - Service- deleteLecturerById method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Service- deleteLecturerById method invoked.");
 
         this.lecturerRepository.delete(id);
 
-        LOGGER.info("Lecturer - Service- deleteLecturerById method processed.");
+        LOGGER.info("SMAPI - Lecturer - Service- deleteLecturerById method processed.");
     }
 
     @Override
     public void deleteAllLecturers() {
-        LOGGER.info("Lecturer - Service- deleteAllLecturers method invoked.");
+        LOGGER.info("SMAPI - Lecturer - Service- deleteAllLecturers method invoked.");
 
         this.lecturerRepository.deleteAll();
 
-        LOGGER.info("Lecturer - Service- deleteAllLecturers method processed.");
+        LOGGER.info("SMAPI - Lecturer - Service- deleteAllLecturers method processed.");
     }
 
     private Lecturer convertDaoToDto(LecturerEntity lecturerEntity) {

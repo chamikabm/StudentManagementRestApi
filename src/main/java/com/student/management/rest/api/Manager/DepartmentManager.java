@@ -10,9 +10,9 @@ public class DepartmentManager {
 
     public Boolean isValidDepartment(Department department) {
 
-        LOGGER.info("Department - Manager- isValidDepartment method invoked.");
+        LOGGER.info("SMAPI - Department - Manager- isValidDepartment method invoked.");
 
-        LOGGER.info("Department - Manager- isValidDepartment method processed.");
+        LOGGER.info("SMAPI - Department - Manager- isValidDepartment method processed.");
         if (department.getName() == null || department.getDepartmentHeadId() == null) {
             return Boolean.FALSE;
         } else {

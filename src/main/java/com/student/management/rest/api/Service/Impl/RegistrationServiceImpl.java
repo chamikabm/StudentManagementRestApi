@@ -33,44 +33,44 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public Registration registerNewStudent(Student student) {
-        LOGGER.info("Registration - Service- registerNewStudent method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- registerNewStudent method invoked.");
 
         RegistrationEntity newRegistration = new RegistrationEntity();
         newRegistration.setStudentId(student.getId());
         newRegistration.setRegisteredDate(new Date());
 
 
-        LOGGER.info("Registration - Service- registerNewStudent method processed.");
+        LOGGER.info("SMAPI - Registration - Service- registerNewStudent method processed.");
         return convertRegisterDaoToDto(this.registrationRepository.save(newRegistration));
     }
 
     @Override
     public Registration getStudentRegistration(Student student) {
 
-        LOGGER.info("Registration - Service- getStudentRegistration method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- getStudentRegistration method invoked.");
 
-        LOGGER.info("Registration - Service- getStudentRegistration method processed.");
+        LOGGER.info("SMAPI - Registration - Service- getStudentRegistration method processed.");
         return convertRegisterDaoToDto(this.registrationRepository.findByStudentId(student.getId()));
     }
 
     @Override
     public Boolean removeStudentRegistration(Integer studentId) {
-        LOGGER.info("Registration - Service- removeStudentRegistration method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- removeStudentRegistration method invoked.");
 
         this.registrationRepository.deleteByStudentId(studentId);
 
-        LOGGER.info("Registration - Service- removeStudentRegistration method processed.");
+        LOGGER.info("SMAPI - Registration - Service- removeStudentRegistration method processed.");
 
         return Boolean.TRUE;
     }
 
     @Override
     public Boolean isRegisteredStudent(Integer studentId) {
-        LOGGER.info("Registration - Service- registerNewStudent method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- registerNewStudent method invoked.");
 
         Registration registration =  convertRegisterDaoToDto(this.registrationRepository.findByStudentId(studentId));
 
-        LOGGER.info("Registration - Service- registerNewStudent method processed.");
+        LOGGER.info("SMAPI - Registration - Service- registerNewStudent method processed.");
 
         if (registration != null) {
             return Boolean.TRUE;
@@ -81,12 +81,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public List<Registration> findAllRegistrations() {
-        LOGGER.info("Registration - Service- findAllRegistrations method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- findAllRegistrations method invoked.");
 
         List<RegistrationEntity> registrationEntities = new ArrayList<>();
         this.registrationRepository.findAll().forEach(registrationEntities::add);
 
-        LOGGER.info("Registration - Service- findAllRegistrations method processed.");
+        LOGGER.info("SMAPI - Registration - Service- findAllRegistrations method processed.");
 
         return  registrationEntities.stream()
                 .map(this::convertRegisterDaoToDto)
@@ -95,11 +95,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public Registration findById(Integer id) throws CustomErrorType {
-        LOGGER.info("Registration - Service- findById method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- findById method invoked.");
 
         RegistrationEntity registrationEntity = this.registrationRepository.findOne(id);
 
-        LOGGER.info("Registration - Service- findById method processed.");
+        LOGGER.info("SMAPI - Registration - Service- findById method processed.");
         if (registrationEntity == null) {
             throw new CustomErrorType("Registration with id " + id + " not found");
         } else {
@@ -109,11 +109,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public Registration addNewRegistration(Registration registration) throws CustomErrorType {
-        LOGGER.info("Registration - Service- addNewRegistration method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- addNewRegistration method invoked.");
 
         RegistrationManager registrationManager = new RegistrationManager();
 
-        LOGGER.info("Registration - Service- addNewRegistration method processed.");
+        LOGGER.info("SMAPI - Registration - Service- addNewRegistration method processed.");
 
         if(registrationManager.isValidRegistration(registration)) {
             RegistrationEntity registrationEntity = convertRegisterDtoToDao(registration);
@@ -130,18 +130,18 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void deleteRegistrationById(Integer id) {
-        LOGGER.info("Registration - Service- deleteRegistrationById method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- deleteRegistrationById method invoked.");
 
-        LOGGER.info("Registration - Service- deleteRegistrationById method processed.");
+        LOGGER.info("SMAPI - Registration - Service- deleteRegistrationById method processed.");
 
         this.registrationRepository.delete(id);
     }
 
     @Override
     public void deleteAllRegistrations() {
-        LOGGER.info("Registration - Service- deleteAllRegistrations method invoked.");
+        LOGGER.info("SMAPI - Registration - Service- deleteAllRegistrations method invoked.");
 
-        LOGGER.info("Registration - Service- deleteAllRegistrations method processed.");
+        LOGGER.info("SMAPI - Registration - Service- deleteAllRegistrations method processed.");
 
         this.registrationRepository.deleteAll();
     }

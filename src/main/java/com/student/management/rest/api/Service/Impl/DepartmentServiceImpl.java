@@ -30,14 +30,14 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department findById(Integer id) throws CustomErrorType {
-        LOGGER.info("Department - Service- findById method invoked.");
+        LOGGER.info("SMAPI - Department - Service- findById method invoked.");
 
         DepartmentEntity departmentEntity = this.departmentRepository.findOne(id);
         if (departmentEntity == null) {
-            LOGGER.info("Department - Service- findById method processed.");
+            LOGGER.info("SMAPI - Department - Service- findById method processed.");
             throw new CustomErrorType("Department with id " + id + " not found");
         } else {
-            LOGGER.info("Department - Service- findById method processed.");
+            LOGGER.info("SMAPI - Department - Service- findById method processed.");
             return convertDaoToDto(departmentEntity);
         }
     }
@@ -49,7 +49,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void addNewDepartment(Department department) throws CustomErrorType{
-        LOGGER.info("Department - Service- addNewDepartment method invoked.");
+        LOGGER.info("SMAPI - Department - Service- addNewDepartment method invoked.");
 
         DepartmentManager departmentManager = new DepartmentManager();
 
@@ -57,11 +57,11 @@ public class DepartmentServiceImpl implements DepartmentService {
             DepartmentEntity departmentEntity = convertDtoToDao(department);
             this.departmentRepository.save(departmentEntity);
         } else {
-            LOGGER.info("Department - Service- addNewDepartment method processed.");
+            LOGGER.info("SMAPI - Department - Service- addNewDepartment method processed.");
             throw new CustomErrorType("Invalid Department Object Found!");
         }
 
-        LOGGER.info("Department - Service- addNewDepartment method processed.");
+        LOGGER.info("SMAPI - Department - Service- addNewDepartment method processed.");
     }
 
     @Override
@@ -71,21 +71,21 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void deleteDepartmentById(Integer id) {
-        LOGGER.info("Department - Service- deleteDepartmentById method invoked.");
+        LOGGER.info("SMAPI - Department - Service- deleteDepartmentById method invoked.");
 
         this.departmentRepository.delete(id);
 
-        LOGGER.info("Department - Service- deleteDepartmentById method processed.");
+        LOGGER.info("SMAPI - Department - Service- deleteDepartmentById method processed.");
     }
 
     @Override
     public List<Department> findAllDepartments() {
-        LOGGER.info("Department - Service- findAllDepartments method invoked.");
+        LOGGER.info("SMAPI - Department - Service- findAllDepartments method invoked.");
 
         List<DepartmentEntity> departmentEntities = new ArrayList<>();
         this.departmentRepository.findAll().forEach(departmentEntities::add);
 
-        LOGGER.info("Department - Service- findAllDepartments method processed.");
+        LOGGER.info("SMAPI - Department - Service- findAllDepartments method processed.");
 
         return  departmentEntities.stream()
                 .map(this::convertDaoToDto)
@@ -94,19 +94,19 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public boolean isDepartmentExist(Department department) {
-        LOGGER.info("Department - Service- isDepartmentExist method invoked.");
+        LOGGER.info("SMAPI - Department - Service- isDepartmentExist method invoked.");
 
-        LOGGER.info("Department - Service- isDepartmentExist method processed.");
+        LOGGER.info("SMAPI - Department - Service- isDepartmentExist method processed.");
         return this.departmentRepository.exists(department.getId());
     }
 
     @Override
     public void deleteAllDepartments() {
-        LOGGER.info("Department - Service- deleteAllDepartments method invoked.");
+        LOGGER.info("SMAPI - Department - Service- deleteAllDepartments method invoked.");
 
         this.departmentRepository.deleteAll();
 
-        LOGGER.info("Department - Service- deleteAllDepartments method processed.");
+        LOGGER.info("SMAPI - Department - Service- deleteAllDepartments method processed.");
     }
 
     private Department convertDaoToDto(DepartmentEntity departmentEntity) {

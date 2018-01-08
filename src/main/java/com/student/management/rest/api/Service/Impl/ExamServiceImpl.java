@@ -28,12 +28,12 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public List<Exam> findAllExams() {
-        LOGGER.info("Exam - Service- findAllExams method invoked.");
+        LOGGER.info("SMAPI - Exam - Service- findAllExams method invoked.");
 
         List<ExamEntity> examEntities = new ArrayList<>();
         this.examRepository.findAll().forEach(examEntities::add);
 
-        LOGGER.info("Exam - Service- findAllExams method processed.");
+        LOGGER.info("SMAPI - Exam - Service- findAllExams method processed.");
         return  examEntities.stream()
                 .map(this::convertDaoToDto)
                 .collect(Collectors.toList());
@@ -41,39 +41,39 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Exam findById(Integer id) throws CustomErrorType{
-        LOGGER.info("Exam - Service- findById method invoked.");
+        LOGGER.info("SMAPI - Exam - Service- findById method invoked.");
 
         ExamEntity examEntity = this.examRepository.findOne(id);
 
         if (examEntity == null) {
-            LOGGER.info("Exam - Service- findById method processed.");
+            LOGGER.info("SMAPI - Exam - Service- findById method processed.");
             throw new CustomErrorType("Exam with id " + id + " not found");
         } else {
-            LOGGER.info("Exam - Service- findById method processed.");
+            LOGGER.info("SMAPI - Exam - Service- findById method processed.");
             return convertDaoToDto(examEntity);
         }
     }
 
     @Override
     public boolean isExamExist(Exam exam) {
-        LOGGER.info("Exam - Service- isExamExist method invoked.");
+        LOGGER.info("SMAPI - Exam - Service- isExamExist method invoked.");
 
-        LOGGER.info("Exam - Service- isExamExist method processed.");
+        LOGGER.info("SMAPI - Exam - Service- isExamExist method processed.");
         return this.examRepository.exists(exam.getId());
     }
 
     @Override
     public void addNewExam(Exam exam) throws CustomErrorType {
-        LOGGER.info("Exam - Service- addNewExam method invoked.");
+        LOGGER.info("SMAPI - Exam - Service- addNewExam method invoked.");
 
         ExamManager examManager = new ExamManager();
 
         if(examManager.isValidExam(exam)) {
             ExamEntity examEntity = convertDtoToDao(exam);
             this.examRepository.save(examEntity);
-            LOGGER.info("Exam - Service- addNewExam method processed.");
+            LOGGER.info("SMAPI - Exam - Service- addNewExam method processed.");
         } else {
-            LOGGER.info("Exam - Service- addNewExam method processed.");
+            LOGGER.info("SMAPI - Exam - Service- addNewExam method processed.");
             throw new CustomErrorType("Invalid Exam Object Found!");
         }
 
@@ -86,20 +86,20 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public void deleteExamById(Integer id) {
-        LOGGER.info("Exam - Service- deleteExamById method invoked.");
+        LOGGER.info("SMAPI - Exam - Service- deleteExamById method invoked.");
 
         this.examRepository.delete(id);
 
-        LOGGER.info("Exam - Service- deleteExamById method processed.");
+        LOGGER.info("SMAPI - Exam - Service- deleteExamById method processed.");
     }
 
     @Override
     public void deleteAllExams() {
-        LOGGER.info("Exam - Service- deleteAllExams method invoked.");
+        LOGGER.info("SMAPI - Exam - Service- deleteAllExams method invoked.");
 
         this.examRepository.deleteAll();
 
-        LOGGER.info("Exam - Service- deleteAllExams method processed.");
+        LOGGER.info("SMAPI - Exam - Service- deleteAllExams method processed.");
     }
 
     private Exam convertDaoToDto(ExamEntity examEntity) {

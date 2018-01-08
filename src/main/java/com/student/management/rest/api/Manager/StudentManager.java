@@ -10,9 +10,9 @@ public class StudentManager {
 
     public Boolean isValidStudent(Student student) {
 
-        LOGGER.info("Student - Manager- isValidStudent method invoked.");
+        LOGGER.info("SMAPI - Student - Manager- isValidStudent method invoked.");
 
-        LOGGER.info("Student - Manager- isValidStudent method processed.");
+        LOGGER.info("SMAPI - Student - Manager- isValidStudent method processed.");
 
         if (student.getName() == null || student.getDepartment() == null
                 || student.getSemester() == null) {
