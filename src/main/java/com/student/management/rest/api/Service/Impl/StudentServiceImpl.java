@@ -79,7 +79,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAllStudents() {
-        LOGGER.info("SSMAPI - tudent - Service- findAllStudents method invoked.");
+        LOGGER.info("SMAPI - Student - Service- findAllStudents method invoked.");
 
         List<StudentEntity> studentEntities = new ArrayList<>();
         this.studentRepository.findAll().forEach(studentEntities::add);
