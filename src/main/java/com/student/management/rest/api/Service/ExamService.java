@@ -20,4 +20,6 @@ public interface ExamService {
     void deleteExamById(Integer id);
 
     void deleteAllExams();
+
+    Exam findExamByStudentId(Integer id) throws CustomErrorType;
 }

@@ -2,6 +2,7 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.LecturerEntity;
 import com.student.management.rest.api.Manager.LecturerManager;
+import com.student.management.rest.api.Manager.DepartmentManager;
 import com.student.management.rest.api.Model.Lecturer;
 import com.student.management.rest.api.Repository.LecturerRepository;
 import com.student.management.rest.api.Service.LecturerService;
@@ -70,8 +71,10 @@ public class LecturerServiceImpl implements LecturerService {
         LOGGER.info("SMAPI - Lecturer - Service- addNewLecturer method invoked.");
 
         LecturerManager lecturerManager = new LecturerManager();
+        DepartmentManager departmentManager = new DepartmentManager();
 
-        if (lecturerManager.isValidLecturer(lecturer)) {
+        if (lecturerManager.isValidLecturer(lecturer)
+                && departmentManager.isValidDepartment(lecturer.getDepartmentId()) ) {
             LecturerEntity lecturerEntity = convertDtoToDao(lecturer);
             this.lecturerRepository.save(lecturerEntity);
             LOGGER.info("SMAPI - Lecturer - Service- addNewLecturer method processed.");

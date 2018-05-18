@@ -39,4 +39,19 @@ public class PaymentManager {
             return Boolean.FALSE;
         }
     }
+
+    public Boolean isValidPaymentId(Integer paymentId) {
+
+        LOGGER.info("SMAPI - Payment - Manager- isValidAmount method invoked.");
+
+        LOGGER.info("SMAPI - Payment - Manager- isValidAmount method processed.");
+
+        if (paymentId == null) {
+
+            return Boolean.FALSE;
+        } else {
+
+            return Boolean.TRUE;
+        }
+    }
 }

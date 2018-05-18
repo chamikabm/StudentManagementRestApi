@@ -2,6 +2,7 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.ExamEntity;
 import com.student.management.rest.api.Manager.ExamManager;
+import com.student.management.rest.api.Manager.StudentManager;
 import com.student.management.rest.api.Model.Exam;
 import com.student.management.rest.api.Repository.ExamRepository;
 import com.student.management.rest.api.Service.ExamService;
@@ -100,6 +101,22 @@ public class ExamServiceImpl implements ExamService {
         this.examRepository.deleteAll();
 
         LOGGER.info("SMAPI - Exam - Service- deleteAllExams method processed.");
+    }
+
+    @Override
+    public Exam findExamByStudentId(Integer id) throws CustomErrorType {
+        LOGGER.info("SMAPI - Exam - Service- findExamByStudentId method invoked.");
+
+        ExamEntity examEntity = this.examRepository.findOne(id);
+        StudentManager studentManager = new StudentManager();
+
+        if (examEntity == null && studentManager.isValidStudentId(id)) {
+            LOGGER.info("SMAPI - Exam - Service- findExamByStudentId method processed.");
+            throw new CustomErrorType("Exam with id " + id + " not found");
+        } else {
+            LOGGER.info("SMAPI - Exam - Service- findExamByStudentId method processed.");
+            return convertDaoToDto(examEntity);
+        }
     }
 
     private Exam convertDaoToDto(ExamEntity examEntity) {

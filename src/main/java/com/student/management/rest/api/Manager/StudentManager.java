@@ -22,4 +22,17 @@ public class StudentManager {
             return Boolean.TRUE;
         }
     }
+
+    public Boolean isValidStudentId(Integer studentId) {
+
+        LOGGER.info("SMAPI - Student - Manager- isValidStudentId method invoked.");
+
+        LOGGER.info("SMAPI - Student - Manager- isValidStudentId method processed.");
+
+        if (studentId == null ) {
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.PaymentEntity;
 import com.student.management.rest.api.Manager.PaymentManager;
+import com.student.management.rest.api.Manager.ExamManager;
 import com.student.management.rest.api.Model.Payment;
 import com.student.management.rest.api.Repository.PaymentRepository;
 import com.student.management.rest.api.Service.PaymentService;
@@ -68,8 +69,10 @@ public class PaymentServiceImpl implements PaymentService {
         LOGGER.info("SMAPI - Payment - Service- addNewPayment method invoked.");
 
         PaymentManager paymentManager = new PaymentManager();
+        ExamManager examManager = new ExamManager();
 
-        if (paymentManager.isValidPayment(payment)) {
+        if (paymentManager.isValidPayment(payment)
+                && examManager.isValidCourse(payment.getCourseId())) {
             PaymentEntity paymentEntity = convertDtoToDao(payment);
             this.paymentRepository.save(paymentEntity);
             LOGGER.info("SMAPI - Payment - Service- addNewPayment method processed.");

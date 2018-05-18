@@ -21,6 +21,10 @@ public interface StudentService {
 
     List<Student> findAllStudentsByDepartment(String department);
 
+    List<Student> findAllStudentsByLecturer(Integer id);
+
+    List<Student> findAllStudentsWhoHasMadePayments();
+
     void deleteAllStudents();
 
     void deleteAllStudentsByDepartment(String department);

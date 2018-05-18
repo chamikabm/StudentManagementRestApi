@@ -19,4 +19,18 @@ public class DepartmentManager {
             return Boolean.TRUE;
         }
     }
+
+    public Boolean isValidDepartment(Integer departmentId) {
+
+        LOGGER.info("SMAPI - Department - Manager- isValidDepartment method invoked.");
+
+        LOGGER.info("SMAPI - Department - Manager- isValidDepartment method processed.");
+        if (departmentId == null) {
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+    }
+
+
 }

@@ -21,4 +21,18 @@ public class LecturerManager {
             return Boolean.TRUE;
         }
     }
+
+    public Boolean isValidLecturerId(Integer lecturerId) {
+
+        LOGGER.info("SMAPI - Lecturer - Manager- isValidLecturerId method invoked.");
+
+        LOGGER.info("SMAPI - Lecturer - Manager- isValidLecturerId method processed.");
+
+        if (lecturerId == null) {
+
+            return Boolean.FALSE;
+        } else {
+            return Boolean.TRUE;
+        }
+    }
 }

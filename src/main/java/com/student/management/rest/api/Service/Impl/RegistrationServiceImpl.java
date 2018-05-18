@@ -2,6 +2,7 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.RegistrationEntity;
 import com.student.management.rest.api.Manager.RegistrationManager;
+import com.student.management.rest.api.Manager.StudentManager;
 import com.student.management.rest.api.Model.Registration;
 import com.student.management.rest.api.Model.Student;
 import com.student.management.rest.api.Repository.RegistrationRepository;
@@ -112,10 +113,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         LOGGER.info("SMAPI - Registration - Service- addNewRegistration method invoked.");
 
         RegistrationManager registrationManager = new RegistrationManager();
+        StudentManager studentManager = new StudentManager();
 
         LOGGER.info("SMAPI - Registration - Service- addNewRegistration method processed.");
 
-        if(registrationManager.isValidRegistration(registration)) {
+        if(registrationManager.isValidRegistration(registration)
+                && studentManager.isValidStudentId(registration.getStudentId())) {
             RegistrationEntity registrationEntity = convertRegisterDtoToDao(registration);
             return convertRegisterDaoToDto(this.registrationRepository.save(registrationEntity));
         } else {

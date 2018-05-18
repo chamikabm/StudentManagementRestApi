@@ -2,6 +2,7 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.DepartmentEntity;
 import com.student.management.rest.api.Manager.DepartmentManager;
+import com.student.management.rest.api.Manager.RegistrationManager;
 import com.student.management.rest.api.Model.Department;
 import com.student.management.rest.api.Repository.DepartmentRepository;
 import com.student.management.rest.api.Service.DepartmentService;
@@ -48,7 +49,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void addNewDepartment(Department department) throws CustomErrorType{
+    public void addNewDepartment(Department department) throws CustomErrorType {
         LOGGER.info("SMAPI - Department - Service- addNewDepartment method invoked.");
 
         DepartmentManager departmentManager = new DepartmentManager();

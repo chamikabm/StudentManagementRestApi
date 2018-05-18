@@ -23,4 +23,19 @@ public class ExamManager {
             return Boolean.TRUE;
         }
     }
+
+    public Boolean isValidCourse(Integer courseId) {
+
+        LOGGER.info("SMAPI - Exam - Manager- isValidCourse method invoked.");
+
+        LOGGER.info("SMAPI - Exam - Manager- isValidCourse method processed.");
+
+        if (courseId == null) {
+
+            return Boolean.FALSE;
+        } else {
+
+            return Boolean.TRUE;
+        }
+    }
 }

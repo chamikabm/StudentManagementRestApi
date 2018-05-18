@@ -2,7 +2,10 @@ package com.student.management.rest.api.Service.Impl;
 
 import com.student.management.rest.api.Entity.StudentEntity;
 import com.student.management.rest.api.Manager.StudentManager;
+import com.student.management.rest.api.Manager.LecturerManager;
+import com.student.management.rest.api.Manager.PaymentManager;
 import com.student.management.rest.api.Model.Student;
+import com.student.management.rest.api.Repository.LecturerRepository;
 import com.student.management.rest.api.Repository.StudentRepository;
 import com.student.management.rest.api.Service.StudentService;
 import com.student.management.rest.api.Util.CustomErrorType;
@@ -22,10 +25,12 @@ public class StudentServiceImpl implements StudentService {
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentServiceImpl.class);
 
     private final StudentRepository studentRepository;
+    private final LecturerRepository lecturerRepository;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, LecturerRepository lecturerRepository) {
         this.studentRepository = studentRepository;
+        this.lecturerRepository = lecturerRepository;
     }
 
     @Override
@@ -93,7 +98,46 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> findAllStudentsByDepartment(String department) {
+        LOGGER.info("SMAPI - Student - Service- findAllStudentsByDepartment method invoked.");
+        LOGGER.info("SMAPI - Student - Service- findAllStudentsByDepartment method processed.");
         return null;
+    }
+
+    @Override
+    public List<Student> findAllStudentsByLecturer(Integer id) {
+
+        LOGGER.info("SMAPI - Student - Service- findAllStudentsByLecturer method invoked.");
+
+        LecturerManager lecturerManager = new LecturerManager();
+        List<StudentEntity> studentEntities = new ArrayList<>();
+
+        if (lecturerManager.isValidLecturerId(id) && lecturerRepository.exists(id)) {
+
+            this.studentRepository.findAll().forEach(studentEntities::add);
+        }
+
+        LOGGER.info("SMAPI - Student - Service- findAllStudentsByLecturer method processed.");
+
+        return  studentEntities.stream()
+                .map(this::convertStudentDaoToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Student> findAllStudentsWhoHasMadePayments() {
+        LOGGER.info("SMAPI - Student - Service- findAllStudentsWhoHasMadePayments method invoked.");
+        PaymentManager paymentManager = new PaymentManager();
+        List<Student> students = findAllStudents();
+        List<Student> paidStudents = new ArrayList<>();
+
+        for (Student student : students) {
+            if (paymentManager.isValidPaymentId(student.getId())) {
+                paidStudents.add(student);
+            }
+        }
+
+        LOGGER.info("SMAPI - Student - Service- findAllStudentsWhoHasMadePayments method processed.");
+        return paidStudents;
     }
 
     @Override
