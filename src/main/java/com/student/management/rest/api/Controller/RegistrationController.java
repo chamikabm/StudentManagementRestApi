@@ -1,7 +1,7 @@
 package com.student.management.rest.api.Controller;
 
 import com.student.management.rest.api.Model.Registration;
-import com.student.management.rest.api.Service.RegistrationService;
+import com.student.management.rest.api.Service.*;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +22,17 @@ public class RegistrationController {
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
     private final RegistrationService registrationService;
+    private final DepartmentService departmentService;
+    private final PaymentService paymentService;
+    private final StudentService studentService;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService) {
+    public RegistrationController(RegistrationService registrationService, DepartmentService departmentService,
+                                  PaymentService paymentService, StudentService studentService) {
         this.registrationService = registrationService;
+        this.departmentService = departmentService;
+        this.paymentService = paymentService;
+        this.studentService = studentService;
     }
 
     // -------------------Retrieve All Registrations--------------------------------------------
@@ -136,5 +143,26 @@ public class RegistrationController {
 
         LOGGER.info("SMAPI - Registration - Controller- deleteRegistration request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -------------------Retrieve All Registrations--------------------------------------------
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<List<Registration>> listAllRegisteredStudentsFromDepartment() {
+        LOGGER.info("SMAPI - Register - Controller- listAllRegisteredStudentsFromDepartment request received.");
+
+        List<Registration> registrations = registrationService.findAllRegistrations();
+
+        if (registrations.isEmpty()) {
+            LOGGER.info("SMAPI - Register - Controller- listAllRegisteredStudentsFromDepartment request processed.");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+        } else {
+            departmentService.findAllDepartments();
+            paymentService.findAllPayments();
+            studentService.findAllStudents();
+        }
+
+        LOGGER.info("SMAPI - Register - Controller- listAllRegisteredStudentsFromDepartment request processed.");
+        return new ResponseEntity<>(registrations, HttpStatus.OK);
     }
 }

@@ -2,7 +2,7 @@ package com.student.management.rest.api.Controller;
 
 
 import com.student.management.rest.api.Model.Exam;
-import com.student.management.rest.api.Service.ExamService;
+import com.student.management.rest.api.Service.*;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +23,20 @@ public class ExamController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExamController.class);
 
     private final ExamService examService;
+    private final StudentService studentService;
+    private final RegistrationService registrationService;
+    private final DepartmentService departmentService;
+    private final PaymentService paymentService;
 
     @Autowired
-    public ExamController(ExamService examService) {
+    public ExamController(ExamService examService, StudentService studentService,
+                          RegistrationService registrationService, DepartmentService departmentService,
+                          PaymentService paymentService) {
         this.examService = examService;
+        this.studentService = studentService;
+        this.registrationService = registrationService;
+        this.departmentService = departmentService;
+        this.paymentService = paymentService;
     }
 
     // -------------------Retrieve All Exams--------------------------------------------
@@ -137,6 +147,28 @@ public class ExamController {
 
         LOGGER.info("SMAPI - Exam - Controller- deleteAllExams request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -------------------Retrieve All Registered Student Exams------------
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<List<Exam>> getAllRegisteredExams() {
+        LOGGER.info("SMAPI - Exam - Controller- getAllRegisteredExams request received.");
+
+        List<Exam> exams = examService.findAllExams();
+
+        if (exams.isEmpty()) {
+            LOGGER.info("SMAPI - Exam - Controller- getAllRegisteredExams request processed.");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+        } else {
+            studentService.findAllStudents();
+            registrationService.findAllRegistrations();
+            departmentService.findAllDepartments();
+            paymentService.findAllPayments();
+        }
+
+        LOGGER.info("SMAPI - Exam - Controller- getAllRegisteredExams request processed.");
+        return new ResponseEntity<>(exams, HttpStatus.OK);
     }
 
 }

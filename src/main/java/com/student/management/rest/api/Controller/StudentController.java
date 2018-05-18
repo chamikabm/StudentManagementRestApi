@@ -1,8 +1,10 @@
 package com.student.management.rest.api.Controller;
 
+import com.student.management.rest.api.Model.Department;
+import com.student.management.rest.api.Model.Exam;
+import com.student.management.rest.api.Model.Payment;
 import com.student.management.rest.api.Model.Student;
-import com.student.management.rest.api.Service.RegistrationService;
-import com.student.management.rest.api.Service.StudentService;
+import com.student.management.rest.api.Service.*;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,11 +27,19 @@ public class StudentController {
 
     private final StudentService studentService;
     private final RegistrationService registrationService;
+    private final DepartmentService departmentService;
+    private final ExamService examService;
+    private final PaymentService paymentService;
 
     @Autowired
-    public StudentController(StudentService studentService, RegistrationService registrationService) {
+    public StudentController(StudentService studentService, RegistrationService registrationService,
+                             DepartmentService departmentService, ExamService examService,
+                             PaymentService paymentService) {
         this.studentService = studentService;
         this.registrationService = registrationService;
+        this.departmentService = departmentService;
+        this.examService = examService;
+        this.paymentService = paymentService;
     }
 
     // -------------------Retrieve All Students--------------------------------------------
@@ -81,7 +92,21 @@ public class StudentController {
             return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+
         registrationService.registerNewStudent(newStudent);
+
+        Payment payment = new Payment();
+        payment.setAmount(0.0);
+        payment.setPaymentDate(new Date());
+        Exam exam = new Exam();
+
+        try {
+            paymentService.addNewPayment(payment);
+            examService.addNewExam(exam);
+        } catch (CustomErrorType customError) {
+            LOGGER.info("SMAPI - Student - Controller- createStudent request processed.");
+            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -107,7 +132,15 @@ public class StudentController {
 
         currentStudent.setName(student.getName());
         currentStudent.setAge(student.getAge());
-        currentStudent.setDepartment(student.getDepartment());
+
+        try {
+            if (departmentService.findById(student.getDepartment())  != null) {
+                currentStudent.setDepartment(student.getDepartment());
+            }
+        } catch (CustomErrorType customErrorType) {
+            LOGGER.error("SMAPI - Student - Controller- updateStudent department not found.");
+        }
+
         currentStudent.setAddress(student.getAddress());
         currentStudent.setContactNo(student.getContactNo());
         currentStudent.setEmail(student.getEmail());

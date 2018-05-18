@@ -1,7 +1,10 @@
 package com.student.management.rest.api.Controller;
 
 import com.student.management.rest.api.Model.Payment;
+import com.student.management.rest.api.Service.DepartmentService;
 import com.student.management.rest.api.Service.PaymentService;
+import com.student.management.rest.api.Service.RegistrationService;
+import com.student.management.rest.api.Service.StudentService;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +25,17 @@ public class PaymentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentController.class);
 
     private final PaymentService paymentService;
+    private final DepartmentService departmentService;
+    private final StudentService studentService;
+    private final RegistrationService registrationService;
 
     @Autowired
-    public PaymentController(PaymentService paymentService) {
+    public PaymentController(PaymentService paymentService, DepartmentService departmentService,
+                             StudentService studentService, RegistrationService registrationService) {
         this.paymentService = paymentService;
+        this.departmentService = departmentService;
+        this.studentService = studentService;
+        this.registrationService = registrationService;
     }
 
     // -------------------Retrieve All Payments--------------------------------------------
@@ -137,5 +147,25 @@ public class PaymentController {
 
         LOGGER.info("SMAPI - Payment - Controller- deletePayment request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -------Retrieve All Registered Student who made payments-----------
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<List<Payment>> listAllRegisteredStudentsPayments() {
+        LOGGER.info("SMAPI - Payment - Controller- listAllRegisteredStudentsPayments request received.");
+
+        List<Payment> payments = paymentService.findAllPayments();
+
+        if (payments.isEmpty()) {
+            LOGGER.info("SMAPI - Payment - Controller- listAllRegisteredStudentsPayments request processed.");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            departmentService.findAllDepartments();
+            studentService.findAllStudents();
+            registrationService.findAllRegistrations();
+        }
+
+        LOGGER.info("SMAPI - Payment - Controller- listAllRegisteredStudentsPayments request processed.");
+        return new ResponseEntity<>(payments, HttpStatus.OK);
     }
 }

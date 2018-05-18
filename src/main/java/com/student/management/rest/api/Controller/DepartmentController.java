@@ -1,7 +1,7 @@
 package com.student.management.rest.api.Controller;
 
 import com.student.management.rest.api.Model.Department;
-import com.student.management.rest.api.Service.DepartmentService;
+import com.student.management.rest.api.Service.*;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +21,20 @@ public class DepartmentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
 
     private final DepartmentService departmentService;
+    private final ExamService examService;
+    private final LecturerService lecturerService;
+    private final PaymentService paymentService;
+    private final StudentService studentService;
 
     @Autowired
-    public DepartmentController(DepartmentService departmentService) {
+    public DepartmentController(DepartmentService departmentService, ExamService examService,
+                                LecturerService lecturerService, PaymentService paymentService,
+                                StudentService studentService) {
         this.departmentService = departmentService;
+        this.examService = examService;
+        this.lecturerService = lecturerService;
+        this.paymentService = paymentService;
+        this.studentService = studentService;
     }
 
 
@@ -131,5 +141,26 @@ public class DepartmentController {
 
         LOGGER.info("SMAPI - Department - Controller- deleteAllDepartments request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -----Retrieve All Departments for Student has Made the Exam Payment------
+    @RequestMapping(value = "/getAllExamPaymentMadeStudentDepartments", method = RequestMethod.GET)
+    public ResponseEntity<List<Department>> listAllDepartmentsMadePayment() {
+        LOGGER.info("SMAPI - Department - Controller- listAllDepartmentsMadePayment request received.");
+        List<Department> departments = departmentService.findAllDepartments();
+
+        if (departments.isEmpty()) {
+            LOGGER.info("SMAPI - Department - Controller- listAllDepartmentsMadePayment request processed.");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+        } else {
+            examService.findAllExams();
+            studentService.findAllStudents();
+            lecturerService.findAllLecturers();
+            paymentService.findAllPayments();
+        }
+
+        LOGGER.info("SMAPI - Department - Controller- listAllDepartmentsMadePayment request processed.");
+        return new ResponseEntity<>(departments, HttpStatus.OK);
     }
 }

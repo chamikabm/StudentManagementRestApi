@@ -1,6 +1,8 @@
 package com.student.management.rest.api.Controller;
 
 import com.student.management.rest.api.Model.Lecturer;
+import com.student.management.rest.api.Service.DepartmentService;
+import com.student.management.rest.api.Service.ExamService;
 import com.student.management.rest.api.Service.LecturerService;
 import com.student.management.rest.api.Util.CustomErrorType;
 import org.slf4j.Logger;
@@ -21,10 +23,15 @@ public class LecturerController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LecturerController.class);
 
     private final LecturerService lecturerService;
+    private final DepartmentService departmentService;
+    private final ExamService examService;
 
     @Autowired
-    public LecturerController(LecturerService lecturerService) {
+    public LecturerController(LecturerService lecturerService, DepartmentService departmentService,
+                              ExamService examService) {
         this.lecturerService = lecturerService;
+        this.departmentService = departmentService;
+        this.examService = examService;
     }
 
     // -------------------Retrieve All Lecturers--------------------------------------------
@@ -135,5 +142,29 @@ public class LecturerController {
 
         LOGGER.info("SMAPI - Lecturer - Controller- deleteAllLecturers request processed.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // -------------------Retrieve Department Lecturers--------------------------------------------
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<List<Lecturer>> listAllDepartmentLecturers(@PathVariable("department") Integer id) {
+        LOGGER.info("SMAPI - Lecturer - Controller- listAllDepartmentLecturers request received.");
+
+        List<Lecturer> lecturers = lecturerService.findAllLecturers();
+
+        if (lecturers.isEmpty()) {
+            LOGGER.info("SMAPI - Lecturer - Controller- listAllDepartmentLecturers request processed.");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            // You many decide to return HttpStatus.NOT_FOUND
+        } else {
+            try {
+                departmentService.findById(id);
+                examService.findAllExams();
+            } catch (CustomErrorType customErrorType) {
+                LOGGER.error("SMAPI - Lecturer - Controller- listAllDepartmentLecturers error occurred.");
+            }
+        }
+
+        LOGGER.info("SMAPI - Lecturer - Controller- listAllDepartmentLecturers request processed.");
+        return new ResponseEntity<>(lecturers, HttpStatus.OK);
     }
 }
