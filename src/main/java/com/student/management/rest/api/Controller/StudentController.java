@@ -84,6 +84,7 @@ public class StudentController {
         LOGGER.info("SMAPI - Student - Controller- createStudent request received.");
 
         Student newStudent;
+        boolean shouldUpdateAdditionalInfo = false;
 
         try {
             newStudent = studentService.saveStudent(student);
@@ -92,22 +93,23 @@ public class StudentController {
             return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-
         registrationService.registerNewStudent(newStudent);
 
-        Payment payment = new Payment();
-        payment.setAmount(0.0);
-        payment.setPaymentDate(new Date());
-        Exam exam = new Exam();
+        if (shouldUpdateAdditionalInfo) {
 
-        try {
-            paymentService.addNewPayment(payment);
-            examService.addNewExam(exam);
-        } catch (CustomErrorType customError) {
-            LOGGER.info("SMAPI - Student - Controller- createStudent request processed.");
-            return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            Payment payment = new Payment();
+            payment.setAmount(0.0);
+            payment.setPaymentDate(new Date());
+            Exam exam = new Exam();
+
+            try {
+                paymentService.addNewPayment(payment);
+                examService.addNewExam(exam);
+            } catch (CustomErrorType customError) {
+                LOGGER.info("SMAPI - Student - Controller- createStudent request processed.");
+                return new ResponseEntity<>(customError.getErrorMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/studentapi/student/{id}").buildAndExpand(student.getId()).toUri());
